@@ -1,0 +1,47 @@
+{
+  "name": "code_index",
+  "category": "development",
+  "description": "Index OADSON's own codebase for semantic search, or search it. Use 'search' when asked to find where something is implemented, how a feature works, or to locate relevant code before making a change. Use 'index' to (re)build the index after code changes. Use 'status' to check what's currently indexed.",
+  "keywords": [
+    "codebase",
+    "code search",
+    "find in code",
+    "where is",
+    "index code",
+    "semantic search"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@code_index"],
+  "permissions": ["filesystem_read"],
+  "dependencies": ["httpx"],
+  "internet_access": true,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["index", "search", "status"],
+        "description": "'index' to (re)build the embedding index, 'search' to semantically search indexed code, 'status' to see counts."
+      },
+      "project": {
+        "type": "string",
+        "description": "Project name to scope this to. Defaults to 'oadson' if omitted."
+      },
+      "root": {
+        "type": "string",
+        "description": "Directory to index (action='index' only). Defaults to the current working directory of the running OADSON process — i.e. its own deployed codebase."
+      },
+      "query": {
+        "type": "string",
+        "description": "Natural-language search query (action='search' only), e.g. 'where is the Gmail token refresh logic'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max search results to return. Defaults to 5."
+      }
+    },
+    "required": ["action"]
+  }
+}

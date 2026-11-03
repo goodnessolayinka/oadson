@@ -1,0 +1,55 @@
+{
+  "name": "humanizer",
+  "category": "writing",
+  "description": "Rewrite any text to eliminate AI writing patterns and pass AI detection. Removes em dashes, filler phrases, robotic tone, parallel structure, and every other tell. Supports casual, professional, academic, and social tones. Can scan text for AI patterns or humanize PDF sections one at a time.",
+  "keywords": [
+    "humanize",
+    "ai detection",
+    "rewrite",
+    "writing",
+    "human text",
+    "bypass ai detector",
+    "make text human",
+    "remove ai patterns",
+    "essay",
+    "pdf"
+  ],
+  "version": "1.0.0",
+  "triggers": [
+    "@humanizer",
+    "@human"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["humanize", "scan", "section"],
+        "description": "humanize: rewrite text to eliminate AI patterns (default). scan: detect AI patterns in text without rewriting. section: humanize one section of a larger document (for large PDFs processed chunk by chunk)."
+      },
+      "text": {
+        "type": "string",
+        "description": "The text to humanize or scan. For large PDFs, send one section at a time using action='section'."
+      },
+      "tone": {
+        "type": "string",
+        "enum": ["natural", "casual", "professional", "academic", "social"],
+        "description": "Target tone for the rewrite. natural: however a real person would write it. casual: contractions, short lines, informal. professional: business-human not robot. academic: like a real student/researcher. social: punchy, direct, social media ready."
+      },
+      "context": {
+        "type": "string",
+        "description": "Optional extra instructions e.g. 'keep it under 300 words', 'this is for a university submission', 'maintain technical terms'."
+      },
+      "section_title": {
+        "type": "string",
+        "description": "For action='section' only: the heading or title of the section being rewritten, so the model maintains document context."
+      }
+    },
+    "required": ["text"]
+  }
+}

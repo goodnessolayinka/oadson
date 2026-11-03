@@ -1,0 +1,35 @@
+{
+  "name": "user_location",
+  "category": "personal",
+  "description": "Turn the user's own real coordinates (already shared by them via GPS/WhatsApp/Telegram location share) into a readable place name — city, region, country. Never guesses or looks up location on its own; only converts coordinates the user has already provided.",
+  "keywords": [
+    "my location",
+    "current location",
+    "where am i",
+    "near me",
+    "weather here",
+    "nearby"
+  ],
+  "version": "1.0.0",
+  "triggers": [
+    "@user_location"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["from_coordinates"],
+        "description": "from_coordinates: convert real latitude/longitude the user already shared into a readable place."
+      },
+      "latitude": {"type": "number", "description": "Latitude the user shared. Required."},
+      "longitude": {"type": "number", "description": "Longitude the user shared. Required."}
+    },
+    "required": ["action", "latitude", "longitude"]
+  }
+}

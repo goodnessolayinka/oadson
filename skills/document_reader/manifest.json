@@ -1,0 +1,105 @@
+{
+  "name": "document_reader",
+  "category": "web_productivity",
+  "description": "Read documents and codebases from the user's workspace. IMPORTANT: use action='fetch_upload' with the file's download_url FIRST for any file that came from a chat attachment, WhatsApp media, google_drive, or file_generation — this reads it directly out of storage with no network call and writes it into the sandbox as file_path. Do NOT use terminal's curl/wget to fetch the app's own /files/serve/... URLs — on this single-worker instance that deadlocks the server (the worker handling your request is the same one needed to answer the curl, so it hangs until timeout). Once fetch_upload succeeds, use its returned file_path with read/read_chunked/summarize as normal. Supports PDF, DOCX, PPTX, XLSX, CSV, TXT, PY, JSON, MD, HTML, XML, YAML. For large documents (reports, textbooks, PDFs > 10 pages) ALWAYS use action='read_chunked' with a query — it finds the relevant sections instead of reading everything. — read_chunked's result also ALWAYS includes a document_structure field for PDFs (the document's real module/section headings, scanned independently of your query) — always check this field before answering any question about how many modules/sections a document has, or what its overall structure is; do not rely only on impression from the returned chunk content for structural questions, since chunks are relevance-ranked and can miss a section that scored low for your specific query even though it's genuinely in the document. For codebases or folders use action='read_codebase'. Standard actions: read (full content, small files only), summarize, answer_question, extract_code, metadata.",
+  "keywords": [
+    "read document",
+    "read file",
+    "pdf",
+    "docx",
+    "spreadsheet",
+    "excel",
+    "powerpoint",
+    "csv",
+    "summarize document",
+    "read codebase",
+    "read folder",
+    "large document",
+    "long pdf"
+  ],
+  "version": "3.0.0",
+  "triggers": [
+    "@document_reader"
+  ],
+  "permissions": [],
+  "dependencies": [
+    "pypdf",
+    "pymupdf",
+    "python-docx",
+    "python-pptx",
+    "openpyxl"
+  ],
+  "internet_access": false,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "fetch_upload",
+          "read",
+          "read_chunked",
+          "read_codebase",
+          "summarize",
+          "answer_question",
+          "extract_code",
+          "metadata"
+        ],
+        "description": "fetch_upload: pull an uploaded/generated file into the sandbox by its download_url, no network call — use this FIRST for chat/WhatsApp/Drive/generated files. read: full content (small files only, < 50 pages). read_chunked: query-aware chunked reading for large docs — finds relevant sections without reading everything, PREFERRED for any PDF > 10 pages or large file. read_codebase: walk a directory and find relevant code files by query. summarize: content + summarization instruction. answer_question: content + question. extract_code: pull code blocks. metadata: file info only."
+      },
+      "file_path": {
+        "type": "string",
+        "description": "Path to the file or directory, relative to the user's home directory."
+      },
+      "query": {
+        "type": "string",
+        "description": "What to search for. Required for read_chunked and read_codebase. Be specific — 'cybersecurity courses 300 level' not just 'courses'."
+      },
+      "max_chunks": {
+        "type": "integer",
+        "description": "Maximum number of relevant chunks to return for read_chunked. Default 5. If your query names multiple distinct topics/sections/modules (e.g. asking about several modules or chapters at once), set max_chunks high enough to cover the whole document (check total_chunks_scanned in the result and raise max_chunks to match it) — a low max_chunks with a multi-topic query will silently omit some topics' chunks from the result, which is NOT the same as those topics being absent from the document."
+      },
+      "chunk_size": {
+        "type": "integer",
+        "description": "Pages per chunk for PDF, or lines per chunk for text files. Default 15 for PDF, 100 for text."
+      },
+      "file_extensions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "For read_codebase: file extensions to include, e.g. ['.py', '.js']. Defaults to all code files."
+      },
+      "summary_length": {
+        "type": "string",
+        "enum": [
+          "short",
+          "medium",
+          "long"
+        ]
+      },
+      "question": {
+        "type": "string",
+        "description": "Required for answer_question."
+      },
+      "download_url": {
+        "type": "string",
+        "description": "Required for fetch_upload. The file's download_url as given in the chat attachment or a prior skill's result."
+      },
+      "save_as": {
+        "type": "string",
+        "description": "Optional for fetch_upload. Filename to save as inside the sandbox; defaults to the original filename."
+      },
+      "vision_page_offset": {
+        "type": "integer",
+        "description": "For read/read_chunked on a scanned/image-based PDF only (no extractable text): 0-indexed page to start rendering from. A previous call's result includes 'next_page_offset' when 'has_more' is true — pass that value here to see the next batch of pages of a scanned document longer than one render batch (5 pages per call). Ignored for normal (text-extractable) documents."
+      }
+    },
+    "required": [
+      "action",
+      "file_path"
+    ]
+  }
+}

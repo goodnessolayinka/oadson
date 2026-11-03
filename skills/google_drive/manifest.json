@@ -1,0 +1,77 @@
+{
+  "name": "google_drive",
+  "category": "communication",
+  "description": "Access Google Drive files and external URLs. Actions: list (all files), recent (recently modified), search (find by name/content), info (metadata for one file), read (read full text content of a file \u2014 works for Google Docs, Sheets, Slides, PDFs, text files), read_by_name (search and read in one step by file name), list_folders (list all Drive folders), list_folder (list contents of a folder by folder_id or name), read_url (fetch and read ANY external URL or Google Drive share link \u2014 extracts readable text from HTML pages, Google Docs export links, raw text files). Use read/read_by_name/read_url whenever the user wants to see what's INSIDE a file, not just its name.",
+  "keywords": [
+    "drive",
+    "google drive",
+    "file",
+    "files",
+    "document",
+    "docs",
+    "read",
+    "open",
+    "content",
+    "url",
+    "link",
+    "fetch"
+  ],
+  "version": "3.0.0",
+  "triggers": [
+    "@google_drive"
+  ],
+  "permissions": [
+    "google_oauth"
+  ],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "list",
+          "recent",
+          "search",
+          "info",
+          "read",
+          "read_by_name",
+          "read_url",
+          "list_folders",
+          "list_folder"
+        ],
+        "description": "list: all files. recent: recently modified. search: find by query. info: metadata only. read: read full TEXT CONTENT of a file by file_id (Google Docs/Sheets/text/PDF). read_by_name: search then read in one step \u2014 pass a name. read_url: fetch and read ANY URL or Google Drive share link. list_folders: all folders. list_folder: contents of one folder (needs folder_id or name)."
+      },
+      "file_id": {
+        "type": "string",
+        "description": "Drive file ID. Required for action='read' and 'info'. Get from list/search/recent result's 'id' field. Never guess."
+      },
+      "name": {
+        "type": "string",
+        "description": "File name to search for. Required for action='read_by_name'."
+      },
+      "url": {
+        "type": "string",
+        "description": "URL to fetch. Required for action='read_url'. Works with Google Drive share links (e.g. docs.google.com/...), Google Docs export links, or any public URL that returns text/HTML."
+      },
+      "query": {
+        "type": "string",
+        "description": "Search term for action='search'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max files to return for list/recent/search. Defaults to 10."
+      },
+      "folder_id": {
+        "type": "string",
+        "description": "Folder ID for action='list_folder'. Get from list_folders result."
+      }
+    },
+    "required": [
+      "action"
+    ]
+  }
+}

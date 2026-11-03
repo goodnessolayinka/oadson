@@ -1,0 +1,56 @@
+{
+  "name": "plans",
+  "category": "automation",
+  "description": "Run an approved list of steps overnight on the worker. Start a plan with action submit, check one with action status.",
+  "keywords": [
+    "plan",
+    "overnight",
+    "steps",
+    "background",
+    "schedule"
+  ],
+  "version": "1.0.0",
+  "triggers": [
+    "@plans"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "submit",
+          "status"
+        ],
+        "description": "submit starts a plan. status checks one plan by plan_id."
+      },
+      "plan_id": {
+        "type": "string",
+        "description": "The plan to check. Used with action status."
+      },
+      "steps": {
+        "type": "array",
+        "description": "Used with action submit. Each step: skill, action, args, optional continue_on_failure and idempotent.",
+        "items": {
+          "type": "object"
+        }
+      },
+      "max_hours": {
+        "type": "number",
+        "description": "Used with action submit. Time budget in hours. The plan pauses when it runs out."
+      },
+      "approval_id": {
+        "type": "string",
+        "description": "Used with action submit when a step changes something outside the sandbox: the code from 'approve <code>'."
+      }
+    },
+    "required": [
+      "action"
+    ]
+  }
+}

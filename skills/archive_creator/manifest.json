@@ -1,0 +1,34 @@
+{
+  "name": "archive_creator",
+  "category": "dev_tools",
+  "description": "Create a zip archive from a list of file paths in the user's terminal home directory, and upload it so the user can download it.",
+  "keywords": [
+    "archive",
+    "zip",
+    "compress"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@archive_creator"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "files": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "List of file paths (relative to the user's home directory) to include in the archive."
+      },
+      "archive_name": {
+        "type": "string",
+        "description": "Name for the resulting zip file. Defaults to 'archive.zip' if omitted."
+      }
+    },
+    "required": ["files"]
+  }
+}

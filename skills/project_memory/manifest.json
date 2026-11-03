@@ -1,0 +1,41 @@
+{
+  "name": "project_memory",
+  "category": "productivity",
+  "description": "Long-term memory scoped to a specific project — architecture decisions, conventions, known gotchas, 'don't do X because it broke before'. Distinct from memory_manager, which stores facts about the user rather than a project.",
+  "keywords": [
+    "project memory",
+    "remember this project",
+    "architecture decision",
+    "project convention"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@project_memory"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["save", "recall", "list", "delete"],
+        "description": "save a new fact, recall one by key, list all facts for a project, or delete one."
+      },
+      "project": {
+        "type": "string",
+        "description": "Project name to scope this to. Defaults to 'default' if omitted."
+      },
+      "key": {
+        "type": "string",
+        "description": "Short identifier for this fact, e.g. 'auth_flow' or 'db_choice'. Required for save/recall/delete."
+      },
+      "value": {
+        "type": "string",
+        "description": "The fact to remember. Required for save."
+      }
+    },
+    "required": ["action"]
+  }
+}

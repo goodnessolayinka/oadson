@@ -1,0 +1,48 @@
+{
+  "name": "hash_cracker",
+  "category": "security",
+  "description": "Attempt to crack a hash against a small built-in list of common passwords (educational/weak-password demonstration only, not a real cracking tool), or estimate how difficult a given hash algorithm is to crack in general.",
+  "keywords": [
+    "crack hash",
+    "hash cracking",
+    "decrypt hash"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@hash_cracker"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["crack", "crack_multiple", "estimate_difficulty"],
+        "description": "crack: attempt one hash against the common-password list (requires explicit confirmation). crack_multiple: attempt several hashes at once. estimate_difficulty: general difficulty rating for a named hash algorithm, no actual cracking attempted."
+      },
+      "hash": {
+        "type": "string",
+        "description": "A single hash to attempt cracking. Required for action='crack'."
+      },
+      "hashes": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Multiple hashes to attempt cracking. Required for action='crack_multiple'."
+      },
+      "hash_type": {
+        "type": "string",
+        "enum": ["md5", "sha1", "sha256", "sha512"],
+        "description": "The hash algorithm used. Defaults to 'md5' if omitted."
+      },
+      "confirm": {
+        "type": "boolean",
+        "description": "Must be explicitly true to actually attempt cracking a single hash (action='crack'). The first call should omit this to get a confirmation prompt; only set true after the user explicitly confirms."
+      }
+    },
+    "required": ["action"]
+  }
+}

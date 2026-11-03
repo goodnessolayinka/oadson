@@ -1,0 +1,43 @@
+{
+  "name": "calculator",
+  "category": "web_productivity",
+  "description": "Evaluate math expressions (arithmetic, trig, logs, factorials, etc.), or compute a percentage, percentage change, or compound interest.",
+  "keywords": [
+    "calculate",
+    "math",
+    "percentage",
+    "interest"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@calculator"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["evaluate", "percentage", "percentage_change", "compound_interest"],
+        "description": "evaluate: any math expression. percentage: what % part is of whole. percentage_change: % change from original to new. compound_interest: compound interest calculation."
+      },
+      "expression": {
+        "type": "string",
+        "description": "A clean mathematical expression only, e.g. '25*4' or 'sqrt(144) + 3'. Required for action='evaluate'. Never include any non-math words here."
+      },
+      "part": {"type": "number", "description": "Required for action='percentage'."},
+      "whole": {"type": "number", "description": "Required for action='percentage'."},
+      "original": {"type": "number", "description": "Required for action='percentage_change'."},
+      "new": {"type": "number", "description": "Required for action='percentage_change'."},
+      "principal": {"type": "number", "description": "Required for action='compound_interest'."},
+      "rate": {"type": "number", "description": "Annual interest rate as a percentage (e.g. 5 for 5%). Required for action='compound_interest'."},
+      "time": {"type": "number", "description": "Time in years. Required for action='compound_interest'."},
+      "compounds_per_year": {"type": "integer", "description": "Compounding frequency per year. Defaults to 12 (monthly) for action='compound_interest'."}
+    },
+    "required": ["action"]
+  }
+}

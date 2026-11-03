@@ -1,0 +1,40 @@
+{
+  "name": "web_scraper",
+  "version": "1.0.0",
+  "description": "Structured, multi-page web scraping via static HTML fetch + CSS selector extraction. Load for: pulling structured data (prices, listings, article bodies, table rows) out of one or more pages, following pagination/'next page' links to collect data across several pages, or extracting a specific repeated element (e.g. every product card, every article title) from a page. Distinct from web_fetch (single page, plain readable text, no selectors, no crawling) and browser (JS-rendered pages, clicking/typing — heavier, requires Playwright to be configured, not always available). Use web_scraper first for anything static-HTML-based; only reach for browser if the page genuinely needs JavaScript to render its content.",
+  "category": "web",
+  "permissions": ["network"],
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["scrape", "crawl"],
+        "description": "scrape: extract structured data from ONE page via CSS selectors. crawl: scrape MULTIPLE pages by following a 'next page' link pattern, up to a hard page limit.",
+        "default": "scrape"
+      },
+      "url": {
+        "type": "string",
+        "description": "The page to scrape. Required for both actions — for 'crawl', this is the starting page."
+      },
+      "selectors": {
+        "type": "object",
+        "description": "Map of field_name -> CSS selector, e.g. {\"title\": \"h1\", \"price\": \".price\", \"items\": \".product-card\"}. Each selector's matching elements' text is extracted. Required for 'scrape' and 'crawl'."
+      },
+      "repeat_selector": {
+        "type": "string",
+        "description": "Optional. If set, treats each match of this CSS selector as one 'row' — every selector in 'selectors' is then looked up WITHIN each row instead of once across the whole page. Use this for lists (e.g. product cards, article listings) where you want one structured record per item, not one flat list of all matches. Omit for simple single-value or flat-list extraction."
+      },
+      "next_page_selector": {
+        "type": "string",
+        "description": "For 'crawl' only. CSS selector for the 'next page' link (its href is followed). Required for 'crawl'."
+      },
+      "max_pages": {
+        "type": "integer",
+        "description": "For 'crawl' only. Hard cap on pages fetched, default 5, maximum 15 — this server runs on a tight memory budget, crawling isn't unbounded.",
+        "default": 5
+      }
+    },
+    "required": ["action", "url", "selectors"]
+  }
+}

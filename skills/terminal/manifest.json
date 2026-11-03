@@ -1,0 +1,112 @@
+{
+  "name": "terminal",
+  "category": "dev_tools",
+  "description": "Execute shell commands in the user sandbox. IMPORTANT: this sandbox is EMPTY and ISOLATED by default — it does NOT contain files produced by other skills (file_generation, html_preview, image_generation, etc all write to separate Mongo-backed storage, never to this filesystem) and it does NOT contain OADSON's own skill code (skills are not importable Python modules — 'import html_preview' or similar will always fail with ModuleNotFoundError, there is no such package). If a file from an earlier step needs to be edited or read here, you must first write/download it INTO this sandbox yourself (e.g. via curl/wget from its download_url, or via the workspace skill) — never assume it already exists here. NEVER curl/wget this app's own /files/serve/... URLs (oadson-v3.onrender.com or similar) to pull a file into the sandbox — on this single-worker instance that deadlocks the server (the worker handling your request is the only one that could answer that request, so it hangs until timeout with 0 bytes transferred). Use document_reader's fetch_upload action instead for any file with a download_url. NEVER use bare absolute paths like '/', '/*', or '/tmp/...', and never use '..' to escape upward — these are always outside the sandbox and always blocked; use relative paths only (e.g. 'ls repos/' not 'ls /*' or 'ls ..'), and don't retry the same blocked path a second time expecting a different result — if blocked once, switch to a relative path immediately. Do not import third-party libraries in one-off Python (e.g. 'import fitz' for PDFs) unless you've confirmed they're installed — document_reader already handles PDF/DOCX/PPTX/XLSX reading and is almost always the right tool instead. For cloning a repo + installing + zipping: use action=clone_install_zip with repo=owner/name — do NOT write chained cd && npm install && zip commands manually, they break. For downloading packages: use action=download_packages. For simple commands: use query. Timeout auto-extends to 180s for package manager commands (npm, pip, yarn, cargo, etc).",
+  "keywords": [
+    "terminal",
+    "shell",
+    "bash",
+    "command",
+    "run",
+    "execute",
+    "edit file",
+    "read file",
+    "cat",
+    "ls",
+    "grep",
+    "sed",
+    "python",
+    "repo",
+    "workspace"
+  ],
+  "version": "2.1.0",
+  "triggers": [
+    "@terminal"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": true,
+  "shell_access": true,
+  "sandboxed": true,
+  "sandbox_root": "/tmp/oadson/{user_id}",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "A single shell command or && -chained compound command. For multiple separate commands, prefer 'script' instead to save steps."
+      },
+      "script": {
+        "type": "string",
+        "description": "A multi-line shell script — use this to batch multiple operations into ONE step instead of calling terminal repeatedly. Each line is a separate command. All lines run together in one subprocess and return combined stdout/stderr. Example: 'ls repos/x/\\ncat repos/x/main.py\\npython3 -c \"import ast; ast.parse(open(\\\"repos/x/main.py\\\").read())\"'. PREFER this over multiple terminal calls."
+      },
+      "action": {
+        "type": "string",
+        "enum": [
+          "run_code",
+          "run",
+          "download_packages",
+          "clone_install_zip"
+        ],
+        "description": "'run_code': run a source-code snippet in a specific language (see language/code/filename/stdin params) — writes to a real file first, avoids shell-escaping issues with raw code. 'run' (default): execute shell command. 'download_packages': download pip/npm/yarn/cargo packages and zip them. 'clone_install_zip': clone a GitHub repo, run install, and zip it — all in one step. Use clone_install_zip instead of chaining cd && npm install && zip manually."
+      },
+      "packages": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Package names for download_packages action. e.g. [\"requests\", \"numpy\"]"
+      },
+      "manager": {
+        "type": "string",
+        "enum": [
+          "pip",
+          "npm",
+          "yarn",
+          "cargo"
+        ],
+        "description": "Package manager for download_packages. Default: pip."
+      },
+      "output_name": {
+        "type": "string",
+        "description": "Output zip filename for download_packages. Default: packages.zip"
+      },
+      "repo": {
+        "type": "string",
+        "description": "For clone_install_zip: 'owner/repo' e.g. 'mavixal/class-teacher-frontend'"
+      },
+      "include_modules": {
+        "type": "boolean",
+        "description": "For clone_install_zip: include node_modules in zip. Default false (excluded to keep zip small)."
+      },
+      "install_flags": {
+        "type": "string",
+        "description": "Extra flags for install command e.g. --production"
+      },
+      "language": {
+        "type": "string",
+        "enum": [
+          "python",
+          "javascript",
+          "typescript",
+          "bash",
+          "java"
+        ],
+        "description": "For action=run_code. Language of the snippet. Supported here, CONFIRMED present in the sandbox: python, javascript (node), typescript (via npx tsx, first run may be slower while it installs), bash. java runtime exists but the COMPILER (javac) does not — java source will return a clear error rather than run; only Python/JS/TS/bash actually execute. Do not assume other languages (ruby, go, rust, php, etc) are installed — use action='run' with 'which <interpreter>' first to check before trying."
+      },
+      "code": {
+        "type": "string",
+        "description": "For action=run_code. The full source code to run."
+      },
+      "filename": {
+        "type": "string",
+        "description": "For action=run_code. Optional filename to save the snippet as (extension auto-added if missing). Default: snippet.<ext>."
+      },
+      "stdin": {
+        "type": "string",
+        "description": "For action=run_code. Optional input to feed the program's stdin."
+      }
+    }
+  }
+}

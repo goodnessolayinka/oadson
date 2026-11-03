@@ -1,0 +1,33 @@
+{
+  "name": "wayback",
+  "category": "web_productivity",
+  "description": "Check the Internet Archive's Wayback Machine for saved snapshots of a URL: whether one exists, a calendar of all known snapshots, or a direct viewing URL for a specific date.",
+  "keywords": [
+    "wayback machine",
+    "archive",
+    "snapshot",
+    "internet archive"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@wayback"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["check", "calendar", "view_url"],
+        "description": "check: closest available snapshot. calendar: list of all known snapshot timestamps. view_url: generate a direct snapshot viewing URL, optionally for a specific date."
+      },
+      "url": {"type": "string", "description": "The URL to check."},
+      "date": {"type": "string", "description": "Specific date in YYYYMMDD format. Only used for action='view_url' (optional - omit for closest snapshot)."}
+    },
+    "required": ["action", "url"]
+  }
+}

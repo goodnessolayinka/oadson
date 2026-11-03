@@ -1,0 +1,44 @@
+{
+  "name": "whatsapp_reader",
+  "category": "communication",
+  "description": "Read-only access to WhatsApp. Lists chats/contacts and reads message history for summarizing or answering questions about conversations. To find a specific person, call action=chats first to get their chat_id by name, then action=history or summarize with that chat_id. Can NEVER send messages — strictly observational.",
+  "keywords": ["whatsapp", "read", "history", "chats", "summarize", "other number"],
+  "version": "1.0.0",
+  "triggers": ["@whatsapp_reader"],
+  "permissions": ["read_only"],
+  "dependencies": ["httpx"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["chats", "history", "summarize", "recent_summary"],
+        "description": "chats: list conversations (capped at 100, most recent first — use 'limit' to control how many, or better, ask for a specific person by name/number instead of listing everything). history: get raw messages for one chat (capped at 50 messages, 1000 chars each). summarize: get one chat's messages + summarization instruction (same caps as history). recent_summary: get the N most recent chats (across all contacts) with their recent messages (capped at 10 chats, 20 messages each, 500 chars each), for a 'summarize my last few chats' style request — no chat_id needed."
+      },
+      "chat_id": {
+        "type": "string",
+        "description": "WhatsApp chat ID (e.g. '2348012345678@c.us'). Get this from action='chats' first."
+      },
+      "phone": {
+        "type": "string",
+        "description": "Alternative to chat_id — plain phone number, will be normalized automatically."
+      },
+      "count": {
+        "type": "integer",
+        "description": "Number of messages to retrieve per chat. Defaults to 20 for history/summarize (hard-capped at 50), 10 for recent_summary (hard-capped at 20). These caps exist because raw WhatsApp history can be very large — a full chat list or long message history can genuinely be hundreds of thousands of tokens, more than any available model can accept in one request."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "For action='chats' only — how many chats to return, most recent first. Defaults to 50, hard-capped at 100. If you need a specific person and don't see them in the default results, ask the user for their name/number rather than requesting a higher limit."
+      },
+      "limit_chats": {
+        "type": "integer",
+        "description": "For action='recent_summary' only — how many recent chats to cover. Defaults to 5, hard-capped at 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

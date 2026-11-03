@@ -1,0 +1,32 @@
+{
+  "name": "ip_geolocation",
+  "category": "specialized",
+  "description": "Look up geographic location and ISP info for an IP address, look up multiple IPs at once, or get the server's own current public IP and location.",
+  "keywords": [
+    "ip address",
+    "geolocation",
+    "location lookup"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@ip_geolocation"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["lookup", "bulk_lookup", "my_ip"],
+        "description": "lookup: one IP's location. bulk_lookup: multiple IPs at once. my_ip: the server's own current public IP/location."
+      },
+      "ip_address": {"type": "string", "description": "A single IP address. Required for action='lookup'."},
+      "ip_addresses": {"type": "array", "items": {"type": "string"}, "description": "Multiple IP addresses. Required for action='bulk_lookup'."}
+    },
+    "required": ["action"]
+  }
+}

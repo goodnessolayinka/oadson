@@ -1,0 +1,55 @@
+{
+  "name": "speech_profile",
+  "category": "productivity",
+  "description": "Manage the owner's speech profile — the terms, names, phrases and confirmed mishearing corrections that make speech-to-text understand them accurately. Use 'view' to see what's stored, 'add_term' for a word or project name ASR gets wrong, 'add_correction' for a specific mishearing (heard + meant), 'add_example' to store a confirmed transcript for a real clip, 'add_phrase' for a short phrase with correct spelling, 'reset' to clear everything. Only ever store what the owner actually confirms — never invent a term or an example.",
+  "keywords": [
+    "speech profile",
+    "speech to text",
+    "transcription accuracy",
+    "mishearing",
+    "how i speak",
+    "my accent"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@speech_profile"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["view", "add_term", "add_correction", "add_example", "add_phrase", "reset"],
+        "description": "'view' shows the current speech profile. 'add_term' stores a word/name ASR gets wrong. 'add_correction' stores a heard->meant mishearing pair. 'add_example' stores a confirmed transcript for a real audio clip. 'add_phrase' stores a short phrase with correct spelling. 'reset' clears the whole profile."
+      },
+      "term": {
+        "type": "string",
+        "description": "The word, name or project term to store. Required for action='add_term'."
+      },
+      "heard": {
+        "type": "string",
+        "description": "What the transcriber heard (the wrong word). Required for action='add_correction'."
+      },
+      "meant": {
+        "type": "string",
+        "description": "What was actually said (the correct word). Required for action='add_correction'."
+      },
+      "audio_ref": {
+        "type": "string",
+        "description": "Optional reference/URL for the audio clip. Used with action='add_example'."
+      },
+      "transcript": {
+        "type": "string",
+        "description": "The owner-confirmed transcript. Required for action='add_example'."
+      },
+      "phrase": {
+        "type": "string",
+        "description": "A short phrase with correct spelling. Required for action='add_phrase'."
+      }
+    },
+    "required": ["action"]
+  }
+}

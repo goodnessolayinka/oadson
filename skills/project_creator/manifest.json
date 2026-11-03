@@ -1,0 +1,46 @@
+{
+  "name": "project_creator",
+  "category": "dev_tools",
+  "description": "Generate a complete multi-file software project (not a single file) — pass a full folder structure and file contents, get back one zip download. Use this instead of file_generation when the request needs more than one file (an app, a backend, a component library, anything with real project structure). Every Python file is syntax-checked before packaging; the response tells you if any failed.",
+  "keywords": [
+    "project",
+    "create app",
+    "build app",
+    "scaffold",
+    "generate project",
+    "multi-file"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@project_creator"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "project_name": {
+        "type": "string",
+        "description": "Name for the project. Used as the zip filename (e.g. 'expense-tracker' -> 'expense-tracker.zip')."
+      },
+      "files": {
+        "type": "array",
+        "description": "Every file in the project. Each item: {\"path\": \"relative/path/to/file.ext\", \"content\": \"full file text\"}. Use real relative paths with folders (e.g. 'src/components/Header.jsx', not just 'Header.jsx') to preserve project structure in the zip.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "content": {"type": "string"}
+          },
+          "required": ["path", "content"]
+        }
+      },
+      "entrypoint": {
+        "type": "string",
+        "description": "Path to the main runnable Python file (e.g. 'main.py'), if this project should actually be executed as part of validation, not just syntax-checked. Optional — omit for non-Python or non-runnable projects (e.g. a static HTML site)."
+      }
+    },
+    "required": ["project_name", "files"]
+  }
+}

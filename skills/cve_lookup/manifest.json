@@ -1,0 +1,52 @@
+{
+  "name": "cve_lookup",
+  "category": "security",
+  "description": "Search the National Vulnerability Database (NVD) for known CVEs (vulnerabilities). Call with action='search' and a keyword for general searches, action='get' with a specific CVE ID (format CVE-YYYY-NNNNN) for full details on one vulnerability, action='by_product' to find CVEs affecting a named software product, or action='by_severity' to filter by CRITICAL/HIGH/MEDIUM/LOW.",
+  "keywords": [
+    "cve",
+    "vulnerability",
+    "nvd",
+    "security flaw"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@cve_lookup"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["search", "get", "by_product", "by_severity"],
+        "description": "search: keyword search. get: full details for one CVE ID. by_product: CVEs affecting a named product. by_severity: filter by severity level."
+      },
+      "query": {
+        "type": "string",
+        "description": "Search keywords. Required for action='search'."
+      },
+      "cve_id": {
+        "type": "string",
+        "description": "A specific CVE identifier in the exact format CVE-YYYY-NNNNN (e.g. 'CVE-2024-12345'). Required for action='get'. Never pass a free-text description here - only a real CVE ID."
+      },
+      "product": {
+        "type": "string",
+        "description": "Software product name (e.g. 'apache', 'openssl'). Required for action='by_product'."
+      },
+      "severity": {
+        "type": "string",
+        "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"],
+        "description": "Severity level to filter by. Required for action='by_severity'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results to return. Defaults to 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

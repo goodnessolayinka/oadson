@@ -1,0 +1,46 @@
+{
+  "name": "port_scanner",
+  "category": "security",
+  "description": "Scan a host for open ports using nmap. Requires explicit user confirmation before any scan actually runs (port scanning a host you don't own/control can be illegal in some jurisdictions) - the first call always returns a confirmation prompt; only call again with confirm=true after the user has explicitly agreed.",
+  "keywords": [
+    "port scan",
+    "nmap",
+    "scan"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@port_scanner"
+  ],
+  "permissions": ["shell_access"],
+  "dependencies": ["nmap"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": true,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["scan_common", "scan_all", "scan_specific", "version_detection"],
+        "description": "scan_common: top 1000 ports (fast). scan_all: every port (slow). scan_specific: only the ports listed. version_detection: identify service versions on open ports."
+      },
+      "host": {
+        "type": "string",
+        "description": "The target hostname or IP address to scan. Must be a real host the user owns or has explicit permission to scan."
+      },
+      "ports": {
+        "type": "string",
+        "description": "Specific ports/ranges to scan (e.g. '80,443,8080' or '1-100'). Only used for action='scan_specific' or to narrow scan_all/version_detection."
+      },
+      "aggressive": {
+        "type": "boolean",
+        "description": "Use nmap's aggressive scan mode (-A). Only relevant for scan_all/scan_common. Defaults to false (stealth/SYN scan)."
+      },
+      "confirm": {
+        "type": "boolean",
+        "description": "Must be explicitly true to actually execute the scan. The FIRST call for any new scan should omit this (or set false) to get a confirmation prompt for the user. Only set true after the user has explicitly confirmed they want to proceed - never assume confirmation."
+      }
+    },
+    "required": ["action", "host"]
+  }
+}

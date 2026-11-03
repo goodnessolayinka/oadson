@@ -1,0 +1,73 @@
+# Core
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+python-dotenv>=1.0.0
+pydantic>=2.7.0
+python-multipart>=0.0.9
+
+# Database
+motor>=3.4.0
+pymongo>=4.7.0
+
+# HTTP
+httpx>=0.27.0
+aiofiles>=23.2.1
+
+# Auth
+requests>=2.31.0
+google-auth>=2.29.0
+google-auth-httplib2>=0.2.0
+
+# Gemini SDK — used directly by translator, docs_fetcher, regex_builder,
+# bug_analyzer, hash_identifier, password_check, code_explainer.
+# Was missing entirely, causing "cannot import name 'genai' from 'google'
+# (unknown location)" in every single one of those skills — google-auth
+# above is an unrelated package (OAuth only), so Python found a google.*
+# namespace on disk but no genai submodule inside it anywhere.
+google-genai>=0.3.0
+
+# File storage
+cloudinary>=1.36.0        # core/uploader.py — reinstated 2026-09-03 for
+                           # user uploads (api/files.py, chat attachments).
+                           # core/uploader.py imported this unconditionally
+                           # even while unused (2026-08-30 to 2026-09-03);
+                           # it was never actually listed here, so any
+                           # environment without it already installed some
+                           # other way would have failed at import time the
+                           # moment save_upload() first tried Cloudinary.
+
+# Skill dependencies
+beautifulsoup4>=4.12.0
+psutil>=5.9.0
+pypdf>=4.0.0              # document_reader skill — PDF text extraction + encrypted-PDF
+                           # decrypt (migrated 2026-09-03 off PyPDF2, see skill.py's
+                           # module comment for why). PyPDF2 dropped — nothing else
+                           # in this repo imports it as of this migration.
+pymupdf>=1.24.0           # document_reader skill — renders scanned/image-based PDF
+                           # pages to images for vision fallback (added 2026-09-04,
+                           # see _rasterize_pdf_for_vision). Pure pip wheel, no system
+                           # binary needed (unlike Tesseract), and its MuPDF crypto
+                           # backend authenticates empty-password-encrypted PDFs
+                           # independently of pypdf/pycryptodome.
+pycryptodome>=3.20.0      # document_reader skill (AES encrypted PDF support)
+python-docx>=1.1.0        # document_reader skill (DOCX) — was only listed
+                           # commented-out under file_generation before;
+                           # document_reader has depended on this since
+                           # v2.0.0 with no line here actually installing it
+python-pptx>=0.6.23        # document_reader skill (PPTX)
+openpyxl>=3.1.0             # document_reader skill (XLSX/XLS)
+edge-tts>=6.1.0              # voice_reply skill (free MS Edge TTS, no key)
+cryptography>=42.0.0      # ssl_checker skill
+youtube-transcript-api>=0.6.2   # youtube skill
+ddgs>=6.0.0
+
+reportlab>=4.0.0          # file_generation skill (PDF) — was commented out
+                           # as "optional" despite file_generation calling
+                           # it unconditionally for every PDF request; same
+                           # class of bug as the python-docx line above.
+pip-audit>=2.7.0          # dependency_audit skill (pip ecosystem)
+
+# Optional — install if using specific skills
+# spotify>=2.23.0       # spotify skill
+playwright>=1.40.0
+numpy>=1.26.0             # api/biometrics.py histogram matching (pure wheel, no compile)

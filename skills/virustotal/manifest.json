@@ -1,0 +1,39 @@
+{
+  "name": "virustotal",
+  "category": "security",
+  "description": "Check URLs or file hashes against VirusTotal's malware database. Call with action='check_url' to see an EXISTING report for a URL (fast, but only works if someone has already scanned it before), action='scan_url' to submit a URL for a FRESH scan if no report exists yet, or action='check_hash' to look up a known file hash (MD5/SHA1/SHA256).",
+  "keywords": [
+    "virustotal",
+    "malware",
+    "scan",
+    "virus"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@virustotal"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["check_url", "scan_url", "check_hash"],
+        "description": "check_url: look up an existing report (no new scan). scan_url: submit a URL for a new scan (use this if check_url comes back not-found). check_hash: look up a file hash's reputation."
+      },
+      "url": {
+        "type": "string",
+        "description": "The full URL to check or scan. Required for check_url and scan_url."
+      },
+      "hash": {
+        "type": "string",
+        "description": "An MD5, SHA1, or SHA256 file hash. Required for action='check_hash'."
+      }
+    },
+    "required": ["action"]
+  }
+}

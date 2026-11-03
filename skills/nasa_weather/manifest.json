@@ -1,0 +1,42 @@
+{
+  "name": "nasa_weather",
+  "category": "specialized",
+  "description": "Get historical climate/weather data (temperature, precipitation, solar radiation) for a specific location from NASA's POWER (Prediction Of Worldwide Energy Resources) API. Useful for agricultural, research, or historical climate questions - not real-time forecasts.",
+  "keywords": [
+    "nasa",
+    "weather",
+    "satellite",
+    "climate"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@nasa_weather"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "latitude": {
+        "type": "number",
+        "description": "Latitude of the location."
+      },
+      "longitude": {
+        "type": "number",
+        "description": "Longitude of the location."
+      },
+      "start_date": {
+        "type": "string",
+        "description": "Start date in YYYYMMDD format."
+      },
+      "end_date": {
+        "type": "string",
+        "description": "End date in YYYYMMDD format."
+      }
+    },
+    "required": ["latitude", "longitude", "start_date", "end_date"]
+  }
+}

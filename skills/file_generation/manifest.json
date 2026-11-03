@@ -1,0 +1,80 @@
+{
+  "name": "file_generation",
+  "category": "dev_tools",
+  "description": "Generate a file of a specific type (text, JSON, Python, Markdown, HTML, CSS, TSX, JSX, CSV, XML, Word docx, PDF, Excel xlsx, PowerPoint pptx) and upload it for download. Always asks for confirmation before actually creating the file - call once without confirm to preview, then again with confirm=true after the user agrees. IMPORTANT ON FILENAMES: when the user asks you to fix/update/change/rename ANYTHING about a file you already created earlier in this conversation — including asking you to fix the naming itself — the correct response is to KEEP CALLING IT THE EXACT SAME FILENAME STRING as the very first version, character for character (e.g. if the original was 'gst112_cbt.html', every later regeneration is ALSO 'gst112_cbt.html', not 'Fixed_gst112_cbt.html', 'Download_Fixed_gst112_cbt.html', 'gst112_cbt_master.html', 'Updated_X', 'X_v2', or any other variant. Do not add words like 'Fixed', 'Updated', 'New', 'Final', or a version number to the filename under any circumstance, even if the user's message literally contains the word 'fix' or 'update' — that word describes the CONTENT change they want, not a request for a new filename. If you are unsure what the original filename was, check the conversation history before generating — do not guess a new one.",
+  "keywords": [
+    "generate file",
+    "create file",
+    "write file",
+    "spreadsheet",
+    "excel",
+    "powerpoint",
+    "slide deck"
+  ],
+  "version": "2.1.0",
+  "triggers": [
+    "@file_generation"
+  ],
+  "permissions": [],
+  "dependencies": [
+    "python-docx",
+    "reportlab",
+    "openpyxl",
+    "python-pptx"
+  ],
+  "internet_access": true,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "file_type": {
+        "type": "string",
+        "enum": [
+          "text",
+          "json",
+          "python",
+          "markdown",
+          "html",
+          "css",
+          "tsx",
+          "jsx",
+          "csv",
+          "xml",
+          "docx",
+          "pdf",
+          "xlsx",
+          "pptx"
+        ],
+        "description": "What kind of file to generate."
+      },
+      "filename": {
+        "type": "string",
+        "description": "Name for the file, including extension (e.g. 'report.html')."
+      },
+      "content": {
+        "type": "string",
+        "description": "Raw text content. Used for text, python, markdown, html, css, tsx, jsx file types."
+      },
+      "data": {
+        "type": "object",
+        "description": "Structured data. Used for json and xml file types (as a JSON object); docx/pdf (with optional 'title', 'sections', or 'paragraphs' keys); xlsx (with 'rows' for one sheet or 'sheets' for multiple); pptx (with optional 'title', 'subtitle', and 'slides' keys — EVERY slide in 'slides' must include a non-empty 'bullets' array unless it's deliberately a layout='section' divider or layout='title_only' slide; a slide with a title but no bullets and no explicit layout renders as an almost-empty page)."
+      },
+      "rows": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "description": "List of row objects (each a dict of column->value). Required for file_type='csv'."
+      },
+      "confirm": {
+        "type": "boolean",
+        "description": "Must be explicitly true to actually create the file. The first call should omit this to get a preview/confirmation prompt; only set true after the user explicitly confirms."
+      }
+    },
+    "required": [
+      "file_type",
+      "filename"
+    ]
+  }
+}

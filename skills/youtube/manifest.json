@@ -1,0 +1,34 @@
+{
+  "name": "youtube",
+  "category": "specialized",
+  "description": "Search YouTube videos, get detailed info about a specific video, get a video's transcript (or description if no transcript exists), or find recent videos from a specific channel.",
+  "keywords": [
+    "youtube",
+    "video search",
+    "transcript"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@youtube"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["search", "video_info", "transcript", "channel_videos"],
+        "description": "search: find videos by keyword. video_info: details/stats for a known video. transcript: get a video's transcript. channel_videos: recent videos from a named channel."
+      },
+      "query": {"type": "string", "description": "Search keywords. Required for action='search'."},
+      "video_id": {"type": "string", "description": "YouTube video ID (the part after watch?v=). Required for video_info and transcript."},
+      "channel_name": {"type": "string", "description": "Channel name. Required for action='channel_videos'."},
+      "max_results": {"type": "integer", "description": "Max results for search/channel_videos. Defaults to 10."}
+    },
+    "required": ["action"]
+  }
+}

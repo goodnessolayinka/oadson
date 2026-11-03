@@ -1,0 +1,11 @@
+{
+  "source": "oadson-worker: contracts/ and worker/allowlist.py",
+  "sha256": {
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "signing.py": "dd2fc03bb2d18518c65fedb766ea831fb346b9b27c5e8919c4503ea4c7f4c89f",
+    "jobs.py": "9ecdcfa2f84588faf7146618db24c0aaeaec35b9470b702c84274c066bf9f896",
+    "plans.py": "432be6e87d7eb679b09a15b9d6d9fbe6584fa43d9d3ec5167ee35dc5e66ccd1e",
+    "redact.py": "775dfeeb3e81aa29f89f47bbf7754d432451ef8d09ab2aabb370695679377ef6",
+    "../worker_allowlist.py": "0c673d0703d0397db0801fc6146ce56bb12eea2e21a85331a8ec5ff98422bc59"
+  }
+}

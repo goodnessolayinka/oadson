@@ -1,0 +1,36 @@
+{
+  "name": "currency_converter",
+  "category": "utility",
+  "description": "Convert an amount between real currencies using live exchange rates. Use this any time a currency conversion is asked for (e.g. 'convert 100 USD to NGN') — never estimate or invent an exchange rate from memory, rates change daily and a guessed number is a real hallucination risk.",
+  "keywords": [
+    "convert currency",
+    "exchange rate",
+    "USD to NGN",
+    "currency conversion"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@currency_converter"],
+  "permissions": [],
+  "dependencies": ["httpx"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "number",
+        "description": "The amount to convert."
+      },
+      "from_currency": {
+        "type": "string",
+        "description": "3-letter currency code to convert from, e.g. 'USD', 'NGN', 'EUR'."
+      },
+      "to_currency": {
+        "type": "string",
+        "description": "3-letter currency code to convert to."
+      }
+    },
+    "required": ["amount", "from_currency", "to_currency"]
+  }
+}

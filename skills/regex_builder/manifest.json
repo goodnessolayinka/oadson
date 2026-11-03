@@ -1,0 +1,35 @@
+{
+  "name": "regex_builder",
+  "category": "dev_tools",
+  "description": "Build a regex pattern from a plain-language description, test a pattern against a string, explain what a pattern does, extract all matches from text, replace matches in text, or validate a pattern's correctness/efficiency.",
+  "keywords": [
+    "regex",
+    "regular expression",
+    "pattern matching"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@regex_builder"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["build", "test", "explain", "extract", "replace", "validate"],
+        "description": "build: generate a pattern from a description. test: check if a pattern matches a string. explain: describe what an existing pattern does. extract: find all matches in text. replace: substitute matches in text. validate: check correctness/efficiency of a pattern."
+      },
+      "description": {"type": "string", "description": "Plain-language description of what to match. Required for action='build'."},
+      "pattern": {"type": "string", "description": "A regex pattern. Required for test, explain, extract, replace, validate."},
+      "test_string": {"type": "string", "description": "String to test the pattern against. Required for action='test'."},
+      "text": {"type": "string", "description": "Text to extract from or replace within. Required for extract and replace."},
+      "replacement": {"type": "string", "description": "Replacement string. Required for action='replace'."}
+    },
+    "required": ["action"]
+  }
+}

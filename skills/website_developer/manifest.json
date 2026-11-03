@@ -1,0 +1,114 @@
+{
+  "name": "website_developer",
+  "category": "dev_tools",
+  "description": "Expert website and frontend builder. Generates complete, production-standard sites and React components. For static sites (HTML/CSS/JS): landing pages, portfolios, dashboards, business sites. For React: single-file CDN-based React apps (no build step, preview immediately), full Vite project scaffolds, or individual reusable components (.jsx). Applies modern best practices automatically — semantic HTML, responsive design, accessibility, component structure — self-reviews, fixes issues, and saves to the user's sandbox workspace. IMPORTANT ON NAMING: when the user asks you to fix/update/change/rename ANYTHING about a site you already built earlier in this conversation — including asking you to fix the naming itself — pass the EXACT SAME title and/or folder_name as the very first version, character for character. Do not add words like 'Fixed', 'Updated', 'New', 'Final', or a version number to the title even if the user's message literally contains the word 'fix' or 'update' — that word describes the CONTENT change they want, not a request for a new name. Changing the title changes the slugified folder_name and produces what looks like an unrelated new file. If unsure of the original title, check the conversation history first — do not guess a new one.",
+  "keywords": [
+    "website",
+    "landing page",
+    "portfolio",
+    "html",
+    "css",
+    "react",
+    "component",
+    "jsx",
+    "vite",
+    "frontend",
+    "build a site",
+    "web page",
+    "ui"
+  ],
+  "version": "1.1.0",
+  "triggers": [
+    "@website_developer"
+  ],
+  "permissions": [
+    "read_files",
+    "write_files"
+  ],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "build",
+          "build_component",
+          "edit",
+          "list_templates"
+        ],
+        "description": "build: generate a full site or app. build_component: generate a single reusable React component. edit: change one part of an EXISTING file already in the sandbox (a prior build, or a file from a cloned repo) without regenerating everything around it. list_templates: show available site types."
+      },
+      "framework": {
+        "type": "string",
+        "enum": [
+          "vanilla",
+          "react-cdn",
+          "react-vite"
+        ],
+        "description": "Technology to use. 'vanilla': plain HTML/CSS/JS (default). 'react-cdn': single HTML file with React loaded via CDN — no npm, no build step, preview immediately. 'react-vite': full Vite + React project scaffold with package.json, src/ folder, components — user runs npm install to activate."
+      },
+      "site_type": {
+        "type": "string",
+        "enum": [
+          "landing",
+          "portfolio",
+          "dashboard",
+          "business",
+          "blog",
+          "app"
+        ],
+        "description": "Kind of site to generate. 'app' is best for React projects with state/interactivity. Defaults to 'landing' for vanilla, 'app' for React."
+      },
+      "title": {
+        "type": "string",
+        "description": "Site/component/app name used as the title and branding."
+      },
+      "description": {
+        "type": "string",
+        "description": "What the site or component does — used to write content, props, and structure. More detail = better output."
+      },
+      "sections": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional explicit list of sections or components to include."
+      },
+      "color_theme": {
+        "type": "string",
+        "description": "Optional color direction, e.g. 'dark and minimal', 'warm and playful', 'black and gold'."
+      },
+      "folder_name": {
+        "type": "string",
+        "description": "Folder name to save the output under in the user's workspace. Defaults to slugified title."
+      },
+      "component_name": {
+        "type": "string",
+        "description": "For build_component: name of the React component (e.g. 'UserCard', 'NavBar', 'DataTable')."
+      },
+      "props": {
+        "type": "string",
+        "description": "For build_component: description of the props the component should accept."
+      },
+      "file_path": {
+        "type": "string",
+        "description": "For edit: path to the existing file, relative to the workspace root — e.g. 'my-site/index.html', or 'repos/owner__repo/index.html' for a file from a cloned GitHub repo."
+      },
+      "old_str": {
+        "type": "string",
+        "description": "For edit: the exact existing text to replace, copied verbatim from the file's real content (read it first if unsure) — must match exactly once in the file, or the edit is rejected rather than guessing which occurrence you meant."
+      },
+      "new_str": {
+        "type": "string",
+        "description": "For edit: the replacement text."
+      }
+    },
+    "required": [
+      "action"
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "session_log",
+  "category": "web_productivity",
+  "description": "Retrieve conversation history from previous OADSON sessions — list recent sessions, or search past sessions by keyword to find a specific conversation, decision, or code snippet.",
+  "keywords": [
+    "history",
+    "session",
+    "past conversation",
+    "chat log",
+    "previous session"
+  ],
+  "version": "1.0.0",
+  "triggers": [
+    "@session_log"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["list", "search", "get"],
+        "description": "'list' for recent sessions, 'search' for a keyword search across past session messages, 'get' to retrieve full messages for one session_id."
+      },
+      "query": {
+        "type": "string",
+        "description": "Keyword to search for in past session messages. Required when action='search'."
+      },
+      "session_id": {
+        "type": "string",
+        "description": "The session_id to fetch full messages for. Required when action='get'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max number of sessions to return for 'list' or 'search'. Defaults to 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

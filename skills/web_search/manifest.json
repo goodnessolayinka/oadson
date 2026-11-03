@@ -1,0 +1,35 @@
+{
+  "name": "web_search",
+  "category": "web_productivity",
+  "description": "Search the web for current information, facts, or anything not already known. Pass a concise, well-formed search query - not the user's full raw sentence verbatim.",
+  "keywords": [
+    "search",
+    "web",
+    "google",
+    "find",
+    "lookup"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@web_search"
+  ],
+  "permissions": [],
+  "dependencies": ["duckduckgo-search"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "A short, focused search query (a few keywords or a clear question) - not the user's entire message verbatim. E.g. for 'can you search for the best song on the web', use 'best song 2026' or similar, not the full sentence."
+      },
+      "max_results": {
+        "type": "integer",
+        "description": "How many results to return. Defaults to 5 if omitted."
+      }
+    },
+    "required": ["query"]
+  }
+}

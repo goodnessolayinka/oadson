@@ -1,0 +1,38 @@
+{
+  "name": "whois",
+  "category": "security",
+  "description": "Look up WHOIS registration information for a domain (registrar, registrant, creation/expiry dates, nameservers). Call with action='lookup' to fetch raw WHOIS data for a domain, or action='parse' with raw whois_data text to extract structured fields from it.",
+  "keywords": [
+    "whois",
+    "domain registration",
+    "registrar"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@whois"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["lookup", "parse"],
+        "description": "lookup: fetch WHOIS data for a domain. parse: extract structured fields (registrar, dates, nameservers) from raw WHOIS text you already have."
+      },
+      "domain": {
+        "type": "string",
+        "description": "The domain name to look up (e.g. 'example.com'). Required for action='lookup'."
+      },
+      "whois_data": {
+        "type": "string",
+        "description": "Raw WHOIS text to parse. Required for action='parse' - typically the whois_data field from a prior lookup result."
+      }
+    },
+    "required": ["action"]
+  }
+}

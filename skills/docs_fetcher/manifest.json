@@ -1,0 +1,36 @@
+{
+  "name": "docs_fetcher",
+  "category": "web_productivity",
+  "description": "Fetch a documentation webpage and summarize it, extract API documentation specifically, find a specific named section, compare two documentation pages, or extract all code examples from a page.",
+  "keywords": [
+    "documentation",
+    "docs",
+    "fetch",
+    "api"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@docs_fetcher"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["summarize", "api_docs", "find_section", "compare", "examples"],
+        "description": "summarize: general overview. api_docs: extract endpoints/auth/params. find_section: locate one named section. compare: diff two doc pages. examples: extract code samples."
+      },
+      "url": {"type": "string", "description": "Documentation URL. Required for summarize, api_docs, find_section, examples."},
+      "summary_length": {"type": "string", "enum": ["short", "medium", "long"], "description": "Only used for action='summarize'. Defaults to 'medium'."},
+      "section_name": {"type": "string", "description": "Name of the section to find. Required for action='find_section'."},
+      "url1": {"type": "string", "description": "First URL to compare. Required for action='compare'."},
+      "url2": {"type": "string", "description": "Second URL to compare. Required for action='compare'."}
+    },
+    "required": ["action"]
+  }
+}

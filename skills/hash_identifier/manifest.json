@@ -1,0 +1,45 @@
+{
+  "name": "hash_identifier",
+  "category": "security",
+  "description": "Identify what algorithm produced a hash string (MD5, SHA-family, bcrypt, Argon2, etc.) based on its length/format. Can also identify multiple hashes at once, get an AI-written analysis of a hash's characteristics, or look up general info about a named hash algorithm.",
+  "keywords": [
+    "hash",
+    "identify hash",
+    "md5",
+    "sha256",
+    "bcrypt"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@hash_identifier"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["identify", "identify_batch", "analyze", "algorithm_info"],
+        "description": "identify: detect the type of one hash. identify_batch: detect types for multiple hashes at once. analyze: AI-written deep-dive on one hash's characteristics. algorithm_info: general info about a named algorithm (e.g. 'SHA256', 'bcrypt')."
+      },
+      "hash": {
+        "type": "string",
+        "description": "A single hash string. Required for identify and analyze."
+      },
+      "hashes": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "A list of hash strings. Required for action='identify_batch'."
+      },
+      "hash_type": {
+        "type": "string",
+        "description": "A named hash algorithm (e.g. 'MD5', 'SHA256', 'bcrypt', 'Argon2'). Required for action='algorithm_info'."
+      }
+    },
+    "required": ["action"]
+  }
+}

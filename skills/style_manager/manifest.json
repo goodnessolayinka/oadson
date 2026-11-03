@@ -1,0 +1,39 @@
+{
+  "name": "style_manager",
+  "category": "productivity",
+  "description": "Use the user's own writing style — tone, Pidgin/Yoruba usage, phrasing habits — to write content in their voice. The profile builds itself automatically in the background from the user's own messages across all sessions; you never need to call 'learn' for this to work. Use 'view' to see what's been learned, 'write' to generate content (WhatsApp texts, assignments, drafts) in the user's actual voice, 'learn' only if the user explicitly asks to force-refresh it right now, 'reset' to clear it. Only call 'write' when the user explicitly asks for something in their own style/voice — never apply this automatically to ordinary assistant replies. To learn from text OUTSIDE OADSON's own conversation history (e.g. the user's real WhatsApp messages fetched via @whatsapp_reader), call 'learn' with additional_text set to that fetched content — this is the only way external text actually gets analyzed; 'learn' on its own only looks at the user's messages to OADSON itself.",
+  "keywords": [
+    "my style",
+    "how i write",
+    "write like me",
+    "in my voice",
+    "pidgin",
+    "yoruba"
+  ],
+  "version": "1.1.0",
+  "triggers": ["@style_manager"],
+  "permissions": [],
+  "dependencies": ["httpx"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["learn", "view", "write", "reset"],
+        "description": "'learn' force-refreshes the profile right now (normally happens automatically in the background — only call this if the user explicitly asks to update it immediately, or is explicitly feeding in external text via additional_text). 'view' shows the current profile. 'write' generates content in the user's style. 'reset' clears the profile entirely."
+      },
+      "request": {
+        "type": "string",
+        "description": "What to write, in plain terms (e.g. 'a WhatsApp text apologizing for being late' or 'an intro paragraph for my assignment on climate change'). Required for action='write'."
+      },
+      "additional_text": {
+        "type": "string",
+        "description": "Optional, only used with action='learn'. Raw text to analyze ALONGSIDE (or instead of) OADSON's own message history — e.g. the user's real WhatsApp chat content already fetched via @whatsapp_reader. Without this, 'learn' can only see what the user has typed to OADSON directly."
+      }
+    },
+    "required": ["action"]
+  }
+}

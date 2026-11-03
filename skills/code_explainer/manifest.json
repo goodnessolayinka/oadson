@@ -1,0 +1,39 @@
+{
+  "name": "code_explainer",
+  "category": "dev_tools",
+  "description": "Explain what a code snippet does, analyze its algorithmic complexity, detect design patterns, suggest refactoring improvements, or do a security review.",
+  "keywords": [
+    "explain code",
+    "code review",
+    "complexity",
+    "refactor"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@code_explainer"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["explain", "complexity", "patterns", "refactor", "security"],
+        "description": "explain: plain-language walkthrough. complexity: Big-O time/space analysis. patterns: detect design patterns. refactor: code quality/refactoring suggestions. security: vulnerability review."
+      },
+      "code": {
+        "type": "string",
+        "description": "The actual code snippet to analyze."
+      },
+      "language": {
+        "type": "string",
+        "description": "Programming language of the snippet, if known (e.g. 'python', 'javascript'). Only used for action='explain'."
+      }
+    },
+    "required": ["action", "code"]
+  }
+}

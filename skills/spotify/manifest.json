@@ -1,0 +1,35 @@
+{
+  "name": "spotify",
+  "category": "specialized",
+  "description": "Search Spotify for tracks, artists, or albums and get their Spotify links. NOTE: search only - this does not control playback or play audio (no Spotify playback API integration exists yet).",
+  "keywords": [
+    "spotify",
+    "music search",
+    "song",
+    "track"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@spotify"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "A clean search query - just the song/artist/album name, not the user's full sentence. E.g. for 'play Bohemian Rhapsody on spotify', use 'Bohemian Rhapsody', not the full request."
+      },
+      "search_type": {
+        "type": "string",
+        "enum": ["track", "artist", "album"],
+        "description": "What to search for. Defaults to 'track'."
+      }
+    },
+    "required": ["query"]
+  }
+}

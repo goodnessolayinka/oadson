@@ -1,0 +1,39 @@
+{
+  "name": "git_helper",
+  "category": "dev_tools",
+  "description": "Inspect a local git repository: status, commit log, branches, remotes, working-directory diff, or stash list.",
+  "keywords": [
+    "git",
+    "git status",
+    "git log",
+    "branches"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@git_helper"
+  ],
+  "permissions": ["shell_access"],
+  "dependencies": ["git"],
+  "internet_access": false,
+  "filesystem_access": true,
+  "shell_access": true,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["status", "log", "branches", "remote", "diff", "stash"],
+        "description": "status: working tree changes. log: commit history. branches: all local+remote branches. remote: remote URLs. diff: uncommitted changes. stash: stashed changes list."
+      },
+      "repo_path": {
+        "type": "string",
+        "description": "Path to the git repository. Defaults to the current directory if omitted."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Number of commits to show for action='log'. Defaults to 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

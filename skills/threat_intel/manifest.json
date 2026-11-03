@@ -1,0 +1,23 @@
+{
+  "name": "threat_intel",
+  "category": "security",
+  "description": "One-call aggregated threat intelligence: give it an IP address or domain and it queries Shodan (exposed services/ports), VirusTotal (reputation), and the NVD CVE database (known vulnerabilities for services found on that host) together, and returns one synthesized verdict instead of you having to call shodan_search, virustotal, and cve_lookup separately and merge them yourself. Use this for 'is this host risky' style questions instead of chaining the individual skills manually.",
+  "keywords": ["threat intel", "recon", "is this ip safe", "host risk", "security overview", "osint"],
+  "version": "1.0.0",
+  "triggers": ["@threat_intel"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "target": {
+        "type": "string",
+        "description": "An IP address or domain to investigate."
+      }
+    },
+    "required": ["target"]
+  }
+}

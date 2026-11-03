@@ -1,0 +1,60 @@
+{
+  "name": "memory_manager",
+  "category": "web_productivity",
+  "description": "Store and recall structured facts about the user in a persistent memory vault. Actions: 'save' to store a key-value fact, 'recall' for exact key lookup, 'search' to find by keyword (preferred over recall — handles partial matches), 'list' to see everything, 'delete' to forget ONE fact by its EXACT key, 'delete_matching' to forget EVERYTHING about a topic in one call (preferred over repeated 'delete' calls — see its own parameter note), 'update_core' to incorporate a fact directly into the always-injected core memory summary (use when user explicitly says 'add to core memory' or 'always remember'), 'show_core' to display the current core memory summary.",
+  "keywords": [
+    "memory",
+    "remember",
+    "knowledge",
+    "store",
+    "recall",
+    "search",
+    "core memory",
+    "forget",
+    "delete"
+  ],
+  "version": "2.3.0",
+  "triggers": [
+    "@memory_manager"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["save", "recall", "search", "list", "delete", "delete_matching", "pin", "unpin", "save_core", "list_core", "update_core", "show_core"],
+        "description": "Which memory operation to perform. Use 'update_core' when the user explicitly asks to add something to core/always-on memory. Use 'show_core' to display the current core memory summary. Prefer 'search' over 'recall' unless you are certain of the exact stored key. IMPORTANT — when the user asks to forget/remove/clear everything about a TOPIC (e.g. 'forget my sleep tracking', 'clear everything about the GST project'), use 'delete_matching' with a 'query' describing the topic in ONE call — it finds and removes every matching memory itself. Do NOT search, then delete keys one at a time in a loop — that is slow (each delete is a separate model round-trip) and easy to leave stragglers behind if a search misses one. Reserve plain 'delete' for when the user names one exact, already-known key."
+      },
+      "key": {
+        "type": "string",
+        "description": "Short, normalized identifier (e.g. 'github_username'). Required for save and delete (a single, already-known exact key). For recall, must be the EXACT key — if unsure, use search. For removing multiple/all memories about a topic, use delete_matching with 'query' instead — do not call delete repeatedly in a loop."
+      },
+      "value": {
+        "type": "string",
+        "description": "The fact to store. Only used when action='save' or 'save_core'."
+      },
+      "fact": {
+        "type": "string",
+        "description": "The fact or sentence to incorporate into core memory. Used with action='update_core'. Write it as a complete, descriptive sentence."
+      },
+      "query": {
+        "type": "string",
+        "description": "Search term. For action='search', matches against both key and content to find memories to recall. For action='delete_matching', describes the topic to forget (e.g. 'sleep tracking', 'GST project') — every memory whose key or content matches is deleted in this ONE call. Prefer this over multiple 'delete' calls when the user wants a whole topic cleared."
+      },
+      "category": {
+        "type": "string",
+        "description": "Optional grouping, e.g. 'personal', 'project', 'preference'. Defaults to 'general'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results for action='search'. Defaults to 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

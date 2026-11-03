@@ -1,0 +1,39 @@
+{
+  "name": "subdomain_enum",
+  "category": "security",
+  "description": "Discover subdomains of a domain via Certificate Transparency logs (crt.sh), DNS brute forcing a common wordlist, search engine results, or all of the above combined.",
+  "keywords": [
+    "subdomain",
+    "enumeration",
+    "recon"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@subdomain_enum"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["crt_sh", "dns_brute", "search_engines", "all"],
+        "description": "crt_sh: Certificate Transparency logs (fast, passive). dns_brute: brute-force common subdomain names via DNS. search_engines: scrape search results. all: run crt_sh and dns_brute together and combine results (most thorough, slowest)."
+      },
+      "domain": {
+        "type": "string",
+        "description": "The domain to enumerate subdomains for (e.g. 'example.com')."
+      },
+      "wordlist_size": {
+        "type": "string",
+        "enum": ["small", "medium"],
+        "description": "Wordlist size for action='dns_brute'. Defaults to 'small'."
+      }
+    },
+    "required": ["action", "domain"]
+  }
+}

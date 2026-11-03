@@ -1,0 +1,24 @@
+{
+  "name": "file_session",
+  "skill": "file_session",
+  "description": "Session-scoped file workspace. Upload files, OADSON reads and rewrites them, download results. No filesystem needed — MongoDB backed.",
+  "category": "dev_tools",
+  "version": "1.0.0",
+  "permissions": ["read_files", "write_files"],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["list", "read", "write", "delete", "drop", "summary"],
+        "description": "list: show all files in session. read: get file content. write: create/overwrite a file. delete: remove one file. drop: delete all session files. summary: count and list filenames."
+      },
+      "filename": {"type": "string", "description": "File to read, write or delete."},
+      "content": {"type": "string", "description": "File content — required for action=write."}
+    },
+    "required": ["action"]
+  }
+}

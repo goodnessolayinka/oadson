@@ -1,0 +1,12 @@
+# secrets: keys live in the host's dashboard, never in the repo
+.env
+.env.*
+!.env.example
+
+# generated
+__pycache__/
+*.pyc
+.pytest_cache/
+.data/
+.oadson/
+*.zip

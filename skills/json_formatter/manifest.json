@@ -1,0 +1,36 @@
+{
+  "name": "json_formatter",
+  "category": "dev_tools",
+  "description": "Format/validate/minify JSON, infer a JSON schema from sample data, or compare two JSON objects for differences.",
+  "keywords": [
+    "json",
+    "format json",
+    "validate json",
+    "minify"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@json_formatter"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["format", "validate", "minify", "prettify", "schema", "compare"],
+        "description": "format/prettify: pretty-print with indentation. validate: check syntax only. minify: remove all whitespace. schema: infer a JSON schema from sample data. compare: diff two JSON objects."
+      },
+      "json_str": {"type": "string", "description": "The JSON text. Required for format, validate, minify, prettify, schema."},
+      "json1": {"type": "string", "description": "First JSON object. Required for action='compare'."},
+      "json2": {"type": "string", "description": "Second JSON object. Required for action='compare'."},
+      "indent": {"type": "integer", "description": "Indentation spaces. Defaults to 2 (format) or 4 (prettify)."},
+      "sort_keys": {"type": "boolean", "description": "Sort object keys alphabetically. Only used for action='format'. Defaults to false."}
+    },
+    "required": ["action"]
+  }
+}

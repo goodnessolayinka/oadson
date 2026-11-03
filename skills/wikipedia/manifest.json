@@ -1,0 +1,33 @@
+{
+  "name": "wikipedia",
+  "category": "web_productivity",
+  "description": "Search Wikipedia, get a short summary of an article, get the full article text, or get a random article.",
+  "keywords": [
+    "wikipedia",
+    "encyclopedia"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@wikipedia"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["search", "summary", "full_article", "random"],
+        "description": "search: find matching articles. summary: short extract for a known article title. full_article: complete text. random: a random article's summary."
+      },
+      "query": {"type": "string", "description": "Search keywords. Required for action='search'."},
+      "title": {"type": "string", "description": "Exact article title. Required for summary and full_article - get this from a prior search result if unsure of the exact title."},
+      "limit": {"type": "integer", "description": "Max results for action='search'. Defaults to 5."},
+      "max_length": {"type": "integer", "description": "Max characters for action='full_article'. Defaults to 5000."}
+    },
+    "required": ["action"]
+  }
+}

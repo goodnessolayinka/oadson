@@ -1,0 +1,26 @@
+{
+  "name": "workspace",
+  "skill": "workspace",
+  "description": "GitHub repo indexing and file workspace. Index repos into MongoDB, read/search files, store patches. No filesystem needed.",
+  "category": "dev_tools",
+  "version": "1.0.0",
+  "permissions": ["read_files", "write_files", "internet_access"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["index", "repos", "list", "read", "search", "patch", "patches", "apply", "drop"],
+        "description": "index: clone and index a GitHub repo. repos: list indexed repos. list: list files in a repo. read: get file content. search: search file contents. patch: store a code patch. patches: list stored patches. apply: apply a stored patch. drop: remove a repo from the index."
+      },
+      "repo": {"type": "string", "description": "GitHub repo in 'owner/name' format."},
+      "path": {"type": "string", "description": "File path within the repo."},
+      "query": {"type": "string", "description": "Search query for action=search."},
+      "content": {"type": "string", "description": "Patch content for action=patch."}
+    },
+    "required": ["action"]
+  }
+}

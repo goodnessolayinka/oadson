@@ -1,0 +1,44 @@
+{
+  "name": "image_generation",
+  "category": "media",
+  "description": "Generate an image from a text prompt (Flux model via Pollinations.ai) and upload it for download/viewing. No API key required for basic use, no card, no signup — genuinely free. Set POLLINATIONS_API_KEY (a free sk_ key from enter.pollinations.ai) to remove the shared per-IP rate limit if this gets used a lot.",
+  "keywords": ["generate image", "create image", "draw", "picture", "image of", "art", "text to image"],
+  "version": "1.0.0",
+  "triggers": ["@image_generation"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "prompt": {
+        "type": "string",
+        "description": "Description of the image to generate."
+      },
+      "filename": {
+        "type": "string",
+        "description": "Optional filename (with .jpg/.png extension). Auto-generated from the prompt if omitted."
+      },
+      "width": {
+        "type": "integer",
+        "description": "Image width in pixels. Default 1024."
+      },
+      "height": {
+        "type": "integer",
+        "description": "Image height in pixels. Default 1024."
+      },
+      "seed": {
+        "type": "integer",
+        "description": "Optional seed for reproducible output — same prompt + same seed = same image."
+      },
+      "model": {
+        "type": "string",
+        "enum": ["flux", "turbo", "kontext"],
+        "description": "Which image model to use. Default 'flux'. 'turbo' is faster/lower-quality, 'kontext' supports image-editing-style prompts."
+      }
+    },
+    "required": ["prompt"]
+  }
+}

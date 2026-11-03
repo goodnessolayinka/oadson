@@ -1,0 +1,37 @@
+{
+  "name": "system_status",
+  "category": "dev_tools",
+  "description": "Check the backend's operational status: API/database health, system resource metrics (CPU/memory/disk), API usage statistics, detailed database health checks, environment info, the autonomous proactive-messaging agent's health, or a full combined status report.",
+  "keywords": [
+    "system status",
+    "health check",
+    "uptime",
+    "server status",
+    "proactive agent",
+    "why hasn't it messaged me"
+  ],
+  "version": "2.1.0",
+  "triggers": [
+    "@system_status"
+  ],
+  "permissions": [],
+  "dependencies": ["psutil"],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["backend_status", "metrics", "api_stats", "db_health", "environment", "full_report", "proactive_status", "self_test", "skill_reliability"],
+        "description": "backend_status: API+DB health summary. metrics: CPU/memory/disk usage. api_stats: usage counts. db_health: detailed DB diagnostics. environment: runtime config info. full_report: everything combined. proactive_status: whether the autonomous WhatsApp agent last succeeded or failed to send, and why. self_test: runs the regression test suite over known past bugs and reports pass/fail. skill_reliability: real success/failure rates, trend (IMPROVING/STABLE/DEGRADING), and average latency per skill from actual execution history — pass skill_name for one skill, omit for a full ranked report."
+      },
+      "skill_name": {
+        "type": "string",
+        "description": "Only used with action='skill_reliability'. Name of a specific skill to report on (e.g. 'github'). Omit to get a ranked report across every skill with execution history."
+      }
+    },
+    "required": ["action"]
+  }
+}

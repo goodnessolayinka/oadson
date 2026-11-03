@@ -1,0 +1,47 @@
+{
+  "name": "password_check",
+  "category": "security",
+  "description": "Analyze password strength, generate a strong random password, check if a password appears in known data breaches (Have I Been Pwned), or get AI-suggested memorable strong passwords for a given context.",
+  "keywords": [
+    "password",
+    "strength",
+    "breach",
+    "generate password"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@password_check"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["analyze_strength", "generate", "check_breach", "suggest"],
+        "description": "analyze_strength: score and feedback for a given password. generate: create a strong random password. check_breach: check if a password has appeared in known data breaches. suggest: AI-generated memorable password ideas for a described context (e.g. 'for my email account')."
+      },
+      "password": {
+        "type": "string",
+        "description": "The password to analyze or check. Required for analyze_strength and check_breach. Treat this value as sensitive - never echo it back unnecessarily in your reply."
+      },
+      "length": {
+        "type": "integer",
+        "description": "Desired password length for action='generate'. Defaults to 16."
+      },
+      "special_chars": {
+        "type": "boolean",
+        "description": "Whether to include special characters when generating. Defaults to true."
+      },
+      "description": {
+        "type": "string",
+        "description": "What the password is for (e.g. 'my banking app'). Required for action='suggest'."
+      }
+    },
+    "required": ["action"]
+  }
+}

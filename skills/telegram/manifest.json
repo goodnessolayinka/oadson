@@ -1,0 +1,26 @@
+{
+  "name": "telegram",
+  "skill": "telegram",
+  "description": "Send and receive Telegram messages via @Oadsonbot. Use when the user asks OADSON to send something to Telegram, check Telegram messages, or manage the bot webhook.",
+  "category": "communication",
+  "version": "1.0.0",
+  "permissions": ["send_message", "read_messages"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "required_env": ["TELEGRAM_BOT_TOKEN", "TELEGRAM_OWNER_CHAT_ID"],
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["send_message", "send_file", "send_photo", "get_updates", "get_chat_id", "set_webhook", "delete_webhook"],
+        "description": "send_message: send text to Telegram. send_file: send a file/document. send_photo: send an image. get_updates: read recent messages. get_chat_id: get the owner's chat ID. set_webhook/delete_webhook: manage bot webhook."
+      },
+      "text": {"type": "string", "description": "Message text for send_message."},
+      "file_url": {"type": "string", "description": "File URL for send_file or send_photo."},
+      "caption": {"type": "string", "description": "Optional caption for send_photo or send_file."}
+    },
+    "required": ["action"]
+  }
+}

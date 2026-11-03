@@ -1,0 +1,35 @@
+{
+  "name": "sticker_reply",
+  "category": "media",
+  "description": "Send a WhatsApp sticker from your personal sticker pack — stickers you've previously sent to OADSON. Use 'send' to reply with a sticker (pick the most contextually appropriate one, or random if nothing fits). Use 'list' to see what's in the pack. OADSON can decide on its own to reply with a sticker instead of text when the moment calls for it — e.g. a funny sticker after a joke, a heart sticker after a warm message. Gemini decides whether to send a sticker or text based on context — if a sticker fits better, use this skill instead of plain text.",
+  "keywords": [
+    "sticker", "send sticker", "sticker pack", "react with sticker",
+    "funny sticker", "emoji sticker", "whatsapp sticker"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@sticker_reply"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["send", "list"],
+        "description": "'send' picks and sends a sticker. 'list' returns all available stickers."
+      },
+      "emoji_hint": {
+        "type": "string",
+        "description": "Optional. Emoji or mood keyword to help pick the right sticker (e.g. '😂', 'funny', 'sad', 'heart'). If not provided, picks the most contextually appropriate or a random one."
+      },
+      "sticker_id": {
+        "type": "string",
+        "description": "Optional. Send a specific sticker by its ID (from 'list'). Takes priority over emoji_hint."
+      }
+    },
+    "required": ["action"]
+  }
+}

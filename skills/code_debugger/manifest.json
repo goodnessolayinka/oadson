@@ -1,0 +1,41 @@
+{
+  "name": "code_debugger",
+  "category": "dev_tools",
+  "description": "Actually debug real code — not just explain an error message (that's bug_analyzer). Give it file contents (yours, or fetched via github's read_file), it syntax-checks, optionally RUNS the code to catch real logic errors, and iteratively fixes what it finds. Use this when asked to 'debug', 'fix', or 'find bugs in' actual source files, as opposed to just explaining a stack trace someone pastes in.",
+  "keywords": [
+    "debug",
+    "fix my code",
+    "find bugs",
+    "iterate",
+    "run and check"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@code_debugger"],
+  "permissions": [],
+  "dependencies": ["httpx"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "files": {
+        "type": "array",
+        "description": "The file(s) to debug. Each item: {\"path\": \"file.py\", \"content\": \"full file text\"}.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "content": {"type": "string"}
+          },
+          "required": ["path", "content"]
+        }
+      },
+      "entrypoint": {
+        "type": "string",
+        "description": "Path of the file to actually execute for a real logic/runtime check, not just syntax. Optional — if omitted, only syntax checking runs (no execution)."
+      }
+    },
+    "required": ["files"]
+  }
+}

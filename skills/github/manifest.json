@@ -1,0 +1,115 @@
+{
+  "name": "github",
+  "category": "dev_tools",
+  "description": "Interact with GitHub repositories. For reading/editing multiple files or making code changes: use clone_to_workspace (downloads whole repo into terminal sandbox in one step), then @terminal for all edits, then push_workspace (pushes all changes in ONE commit via Git Trees API — no per-file loop, no step explosion). For quick single-file reads or single-file writes use read_file/write_file. write_file and create_repo and push_workspace are real destructive actions — only call them when the user has explicitly asked to commit/push/create something.",
+  "keywords": [
+    "github",
+    "repo",
+    "repository",
+    "commit",
+    "push",
+    "clone",
+    "issue",
+    "read file",
+    "file contents",
+    "source code",
+    "create repo",
+    "new repository",
+    "workspace"
+  ],
+  "version": "3.0.0",
+  "triggers": [
+    "@github"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "list_repos",
+          "repo_info",
+          "commits",
+          "issues",
+          "search",
+          "list_files",
+          "read_file",
+          "write_file",
+          "create_repo",
+          "clone_to_workspace",
+          "push_workspace",
+          "delete_workspace"
+        ],
+        "description": "Which GitHub operation to perform. PREFER clone_to_workspace + terminal + push_workspace for any task involving reading or editing multiple files — this uses 3 steps total instead of N steps. Use list_files/read_file only for quick one-off lookups of a single file. write_file is for single-file one-shot writes only. push_workspace requires clone_to_workspace to have been called first this session. delete_workspace: remove one cloned repo folder from the sandbox (local copy only; GitHub untouched)."
+      },
+      "owner": {
+        "type": "string",
+        "description": "Repository owner/organization. Required for: repo_info, commits, issues, list_files, read_file, write_file, clone_to_workspace, push_workspace."
+      },
+      "repo": {
+        "type": "string",
+        "description": "Repository name without owner prefix (e.g. 'OADSON_V3' not 'your-github-user/OADSON_V3'). Required for: repo_info, commits, issues, list_files, read_file, write_file, clone_to_workspace, push_workspace."
+      },
+      "username": {
+        "type": "string",
+        "description": "GitHub username. Required for action='list_repos'."
+      },
+      "path": {
+        "type": "string",
+        "description": "File or directory path within the repo. Required for read_file and write_file. Optional for list_files (omit or '' for repo root)."
+      },
+      "content": {
+        "type": "string",
+        "description": "Full file content to write. Required for write_file."
+      },
+      "commit_message": {
+        "type": "string",
+        "description": "Commit message. Required for write_file and push_workspace."
+      },
+      "branch": {
+        "type": "string",
+        "description": "Branch name. Optional for write_file and push_workspace — defaults to the repo's default branch."
+      },
+      "ref": {
+        "type": "string",
+        "description": "Branch, tag, or commit SHA to read from / clone from. Optional — defaults to the repo's default branch."
+      },
+      "paths": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "For push_workspace only — optional list of specific relative file paths to push. If omitted, pushes ALL non-ignored files in the workspace. Use when you only changed a subset of files."
+      },
+      "query": {
+        "type": "string",
+        "description": "Search keywords. Required for action='search'."
+      },
+      "state": {
+        "type": "string",
+        "enum": ["open", "closed", "all"],
+        "description": "Issue state filter for action='issues'. Defaults to 'open'."
+      },
+      "name": {
+        "type": "string",
+        "description": "Repository name for action='create_repo'."
+      },
+      "description": {
+        "type": "string",
+        "description": "Repository description for action='create_repo'. Optional."
+      },
+      "private": {
+        "type": "boolean",
+        "description": "Whether the new repo should be private. Only for create_repo. Defaults to false."
+      },
+      "org": {
+        "type": "string",
+        "description": "Organization name for create_repo. Omit to create under the token owner's personal account."
+      }
+    },
+    "required": ["action"]
+  }
+}

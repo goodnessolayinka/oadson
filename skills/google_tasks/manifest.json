@@ -1,0 +1,51 @@
+{
+  "name": "google_tasks",
+  "category": "communication",
+  "description": "View, create, or complete tasks in the user's Google Tasks lists. Call with action='list' for pending tasks, action='task_lists' to see all task lists, action='create' with a list_id and title to add a new task, or action='complete' with a list_id and task_id to mark one done.",
+  "keywords": [
+    "tasks",
+    "todo",
+    "to-do",
+    "task list"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@google_tasks"
+  ],
+  "permissions": ["google_oauth"],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["list", "task_lists", "create", "complete"],
+        "description": "list: pending tasks in the default list. task_lists: all of the user's task lists. create: add a new task (requires title; list_id optional, defaults to '@default'). complete: mark a task done (requires task_id; list_id optional, defaults to '@default')."
+      },
+      "list_id": {
+        "type": "string",
+        "description": "The task list ID to act on. Get this from a prior task_lists result if the user has multiple lists. Defaults to '@default' (the user's primary list) if omitted."
+      },
+      "title": {
+        "type": "string",
+        "description": "Task title. Required for action='create'."
+      },
+      "notes": {
+        "type": "string",
+        "description": "Optional task notes/details. Only used for action='create'."
+      },
+      "due": {
+        "type": "string",
+        "description": "Optional due date as an ISO 8601 timestamp. Only used for action='create'."
+      },
+      "task_id": {
+        "type": "string",
+        "description": "The task ID to mark complete. Required for action='complete'. Get this from a prior list result's 'id' field - never guess one."
+      }
+    },
+    "required": ["action"]
+  }
+}

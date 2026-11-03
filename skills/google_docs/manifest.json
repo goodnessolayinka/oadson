@@ -1,0 +1,42 @@
+{
+  "name": "google_docs",
+  "category": "communication",
+  "description": "List, search, or read the user's Google Docs. Call with action='list' to see recent docs, action='search' with a query to find docs by name, or action='read' with a doc_id (from a prior list/search result) to get a document's actual text content.",
+  "keywords": [
+    "google docs",
+    "document",
+    "docs"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@google_docs"
+  ],
+  "permissions": ["google_oauth"],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["list", "search", "read"],
+        "description": "list: recent documents. search: find documents by name. read: get a specific document's text content."
+      },
+      "query": {
+        "type": "string",
+        "description": "Search term to match against document names. Required for action='search'."
+      },
+      "doc_id": {
+        "type": "string",
+        "description": "The Google Docs document ID to read. Required for action='read'. Get this from a prior list or search result's 'id' field - never guess one."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max number of documents to return for list/search. Defaults to 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

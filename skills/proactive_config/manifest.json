@@ -1,0 +1,36 @@
+{
+  "name": "proactive_config",
+  "category": "productivity",
+  "description": "Configure how OADSON's proactive WhatsApp messages sound. Use 'set_voice_style' to change the tone/accent/language of morning messages and check-ins (e.g. 'butler English', 'formal', 'casual Nigerian', 'Yoruba warmth'). Use 'view' to see current settings. Use 'reset' to restore defaults. Call this when the user says things like 'use butler voice for morning messages', 'stop sending pidgin', 'sound more formal when you reach out', 'change how you greet me'.",
+  "keywords": [
+    "butler voice",
+    "morning messages",
+    "proactive style",
+    "how you greet me",
+    "change your voice",
+    "sound more formal",
+    "stop pidgin"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@proactive_config"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["set_voice_style", "view", "reset"],
+        "description": "'set_voice_style' updates how OADSON sounds in proactive messages. 'view' shows current settings. 'reset' restores butler-English default."
+      },
+      "voice_style": {
+        "type": "string",
+        "description": "Required for set_voice_style. Plain-English description of how OADSON should sound in proactive messages. Examples: 'Warm butler-English, clear diction, no pidgin', 'Casual Nigerian friend, can use pidgin', 'Formal and concise, like a professional assistant'."
+      }
+    },
+    "required": ["action"]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "jwt_decoder",
+  "category": "security",
+  "description": "Decode a JWT (JSON Web Token) and inspect its header/payload, expiry status, and common misconfigurations (alg=none, missing exp, weak/guessable HS256 secrets if one is supplied). Does NOT verify a real signature unless a secret is explicitly provided — decoding a JWT never requires the secret, only verifying it does.",
+  "keywords": ["jwt", "json web token", "decode token", "auth token", "bearer token"],
+  "version": "1.0.0",
+  "triggers": ["@jwt_decoder"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string",
+        "description": "The full JWT string (header.payload.signature)."
+      },
+      "secret": {
+        "type": "string",
+        "description": "Optional. If provided, attempts to verify an HS256 signature against this secret. Never required just to decode/inspect a token."
+      }
+    },
+    "required": ["token"]
+  }
+}

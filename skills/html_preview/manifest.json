@@ -1,0 +1,36 @@
+{
+  "name": "html_preview",
+  "category": "dev_tools",
+  "description": "HTML analyser and file reader. NOT a visual renderer — it reads and analyses HTML. Actions: fetch (download HTML from a public URL), render_local (read an HTML file from the user's sandbox workspace by relative path — use after @website_developer builds a site), validate (check for structural issues), extract_text (strip tags), extract_links (pull hrefs), extract_meta (title, description, keywords). For visual preview of generated sites, push to GitHub via @github and deploy to Vercel/Netlify.",
+  "keywords": ["html", "preview", "read file", "validate", "extract", "webpage", "sandbox"],
+  "version": "2.1.0",
+  "triggers": ["@html_preview"],
+  "permissions": ["read_files"],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["fetch", "render_local", "validate", "extract_text", "extract_links", "extract_meta"],
+        "description": "fetch: download from a public URL. render_local: read HTML file from user's sandbox (needs 'path'). validate/extract_text/extract_links/extract_meta: analyse raw HTML string (needs 'html')."
+      },
+      "url": {
+        "type": "string",
+        "description": "Public HTTP/S URL to fetch. Required for action='fetch'."
+      },
+      "path": {
+        "type": "string",
+        "description": "Relative path inside the user's workspace sandbox, e.g. 'my-site/index.html'. Required for action='render_local'."
+      },
+      "html": {
+        "type": "string",
+        "description": "Raw HTML string to analyse. Required for validate, extract_text, extract_links, extract_meta."
+      }
+    },
+    "required": ["action"]
+  }
+}

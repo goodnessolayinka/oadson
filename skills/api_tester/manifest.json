@@ -1,0 +1,29 @@
+{
+  "name": "api_tester",
+  "category": "dev_tools",
+  "description": "Send a test HTTP request to an API endpoint and see the response (status code, body, headers). Supports GET, POST, PUT, DELETE, etc. with optional custom headers and request body.",
+  "keywords": [
+    "api test",
+    "http request",
+    "endpoint test"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@api_tester"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "url": {"type": "string", "description": "The full URL to test."},
+      "method": {"type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"], "description": "HTTP method. Defaults to GET."},
+      "headers": {"type": "object", "description": "Optional custom headers as a key-value object."},
+      "body": {"type": "string", "description": "Optional request body (raw string, or JSON string for a JSON request)."}
+    },
+    "required": ["url"]
+  }
+}

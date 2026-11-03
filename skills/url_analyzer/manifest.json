@@ -1,0 +1,23 @@
+{
+  "name": "url_analyzer",
+  "category": "security",
+  "description": "Analyze a URL for phishing/scam red flags before the user clicks it: follows redirects to reveal the real destination (defeats link shorteners), and checks for IP-literal hosts, punycode/homoglyph domains, credential-in-URL tricks (user@evil.com), suspicious TLDs, excessive subdomains, and lookalike brand names. Optionally cross-checks the final URL against VirusTotal if VIRUSTOTAL_API_KEY is set. Use this whenever a user shares a link and asks 'is this safe' or before summarizing/opening a link from an unknown sender.",
+  "keywords": ["url", "link", "phishing", "scam link", "is this safe", "suspicious link", "shortener"],
+  "version": "1.0.0",
+  "triggers": ["@url_analyzer"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "url": {
+        "type": "string",
+        "description": "The URL to analyze."
+      }
+    },
+    "required": ["url"]
+  }
+}

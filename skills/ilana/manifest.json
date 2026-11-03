@@ -1,0 +1,56 @@
+{
+  "name": "ilana",
+  "version": "1.0.3",
+  "description": "Ìlànà — software engineering process operating system. Load when work touches requirements, SRS, design, coding standards, testing (unit/integration/system/acceptance), SCM, quality assurance, CMMI, ISO/IEC 12207, Git branching, release management, CI/CD, defect tracking, ethics, or team dynamics. Also load when the user says 'ilana', 'run the process', 'ship this properly', 'gate this', 'audit this repo', or asks for a disciplined end-to-end engineering workflow.",
+  "category": "engineering",
+  "permissions": ["read_session", "write_session", "filesystem"],
+  "origin": "SEN102/212 Software Engineering Process, Obafemi Awolowo University, a sample city",
+  "license": "MIT",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "enum": ["boot", "status", "gate", "override", "resume"],
+        "description": "boot: start or resume Ìlànà. status: show current phase/gate/open items. gate: run the checklist for a specific gate. override: force a gate open with a recorded reason. resume: explicitly continue from last recorded state.",
+        "default": "boot"
+      },
+      "gate": {
+        "type": "string",
+        "enum": ["G0", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8"],
+        "description": "Gate to check or override. Required for command=gate and command=override."
+      },
+      "phase": {
+        "type": "string",
+        "enum": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"],
+        "description": "Override the current phase. Use when resuming at a specific point."
+      },
+      "mode": {
+        "type": "string",
+        "enum": ["FLEET", "TASK", "AUDIT", "TUTOR", "DOCTOR", "DRILL"],
+        "description": "FLEET: full gated lifecycle with all 13 specialist agents. TASK: one specialist, one artifact. AUDIT: score an existing codebase. TUTOR: learn the process. DOCTOR: diagnose a broken process. DRILL: self-assessment quiz."
+      },
+      "rigour": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5,
+        "description": "1=advisory (script/spike), 2=warn (internal tool), 3=enforce (production SaaS), 4=regulated (finance/health), 5=safety-critical (no overrides). Set during intake; changes gate bite."
+      },
+      "agent": {
+        "type": "string",
+        "enum": [
+          "conductor", "analyst", "architect", "interaction-designer",
+          "constructor", "verifier", "configuration-engineer", "quality-auditor",
+          "metrologist", "process-modeler", "documentarian", "ethics-officer",
+          "release-manager"
+        ],
+        "description": "Specialist agent to speak as for TASK mode."
+      },
+      "reason": {
+        "type": "string",
+        "description": "Required when command=override. The user's stated reason for forcing a gate open. Recorded permanently in the ledger."
+      }
+    },
+    "required": []
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "google_keep",
+  "category": "communication",
+  "description": "List, search, or create notes in Google Keep. Call with action='list' for all notes, action='search' with a query to find notes by title (Keep's API only supports title search, not full text), or action='create' with a title and text to add a new note.",
+  "keywords": [
+    "keep",
+    "google keep",
+    "note",
+    "notes"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@google_keep"
+  ],
+  "permissions": ["google_oauth"],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["list", "search", "create"],
+        "description": "list: all notes. search: find notes by title match. create: add a new note (requires title and text)."
+      },
+      "query": {
+        "type": "string",
+        "description": "Title search term. Required for action='search'. Note: Keep's API only matches against note titles, not body text."
+      },
+      "title": {
+        "type": "string",
+        "description": "Note title. Required for action='create'."
+      },
+      "text": {
+        "type": "string",
+        "description": "Note body content. Required for action='create'."
+      }
+    },
+    "required": ["action"]
+  }
+}

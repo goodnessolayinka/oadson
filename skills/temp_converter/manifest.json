@@ -1,0 +1,38 @@
+{
+  "name": "temp_converter",
+  "category": "utility",
+  "description": "Use this skill to convert a temperature value from Celsius to Fahrenheit or vice versa.",
+  "keywords": [
+    "temperature",
+    "convert",
+    "celsius",
+    "fahrenheit",
+    "degrees"
+  ],
+  "version": "1.0.0",
+  "triggers": [
+    "@temp_converter"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "value": {
+        "type": "number",
+        "description": "The temperature value to convert"
+      },
+      "target_unit": {
+        "type": "string",
+        "description": "The unit to convert to: 'celsius' or 'fahrenheit'"
+      }
+    },
+    "required": [
+      "value",
+      "target_unit"
+    ]
+  }
+}

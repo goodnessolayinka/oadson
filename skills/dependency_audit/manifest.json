@@ -1,0 +1,34 @@
+{
+  "name": "dependency_audit",
+  "category": "security",
+  "description": "Scan a project's dependencies for known vulnerabilities (CVEs). Call with manager='pip' and a requirements.txt-style content, or manager='npm' and a package.json/package-lock.json content, to check every listed package/version against public vulnerability databases (via pip-audit / npm audit under the hood). Runs inside the user's sandbox, same as @terminal — nothing leaves the sandbox except the outbound audit request each tool makes to its own vulnerability database.",
+  "keywords": ["dependency", "vulnerability", "npm audit", "pip-audit", "cve scan", "supply chain", "outdated packages"],
+  "version": "1.0.0",
+  "triggers": ["@dependency_audit"],
+  "permissions": [],
+  "dependencies": ["pip-audit"],
+  "internet_access": true,
+  "filesystem_access": true,
+  "shell_access": true,
+  "sandboxed": true,
+  "sandbox_root": "/tmp/oadson/{user_id}",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "manager": {
+        "type": "string",
+        "enum": ["pip", "npm"],
+        "description": "Which ecosystem to audit."
+      },
+      "content": {
+        "type": "string",
+        "description": "The raw content of requirements.txt (for pip) or package.json (for npm)."
+      },
+      "project_path": {
+        "type": "string",
+        "description": "Alternative to 'content': a path (relative to the user's sandbox) to an existing requirements.txt or package.json already on disk, e.g. from a cloned repo via @terminal or @github."
+      }
+    },
+    "required": ["manager"]
+  }
+}

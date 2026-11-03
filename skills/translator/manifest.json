@@ -1,0 +1,39 @@
+{
+  "name": "translator",
+  "category": "web_productivity",
+  "description": "Translate text between languages (auto-detects source by default), detect what language a text is written in, translate multiple texts at once, list supported languages, or transliterate text between writing systems (e.g. Latin to Cyrillic).",
+  "keywords": [
+    "translate",
+    "translation",
+    "language"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@translator"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["translate", "detect_language", "translate_batch", "list_languages", "transliterate"],
+        "description": "translate: convert text from one language to another. detect_language: identify what language text is in. translate_batch: translate multiple texts at once. list_languages: see supported language codes. transliterate: convert between writing systems."
+      },
+      "text": {"type": "string", "description": "Text to translate/detect/transliterate. Required for translate, detect_language, transliterate."},
+      "texts": {"type": "array", "items": {"type": "string"}, "description": "Multiple texts. Required for action='translate_batch'."},
+      "source_lang": {"type": "string", "description": "Source language code (e.g. 'es', 'fr') or 'auto' to detect. Defaults to 'auto'. Used for action='translate'."},
+      "target_lang": {
+        "type": "string",
+        "description": "Target language code (e.g. 'en', 'fr', 'yo'). REQUIRED to specify explicitly - defaulting silently to English regardless of what the user actually wants was the original bug here. Used for translate and translate_batch."
+      },
+      "from_script": {"type": "string", "description": "Source writing system, e.g. 'Latin'. Required for action='transliterate'."},
+      "to_script": {"type": "string", "description": "Target writing system, e.g. 'Cyrillic'. Required for action='transliterate'."}
+    },
+    "required": ["action"]
+  }
+}

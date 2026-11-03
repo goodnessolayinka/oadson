@@ -1,0 +1,56 @@
+{
+  "name": "weather_forecast",
+  "category": "productivity",
+  "description": "Get a full weather analysis for a city — temperature, feels-like, humidity, wind speed AND direction, precipitation chance AND volume, pressure, all with real local timestamps. Use 'at_hour' (0-23, local time) for an accurate single reading closest to a specific time of day (e.g. 'weather at 3pm' -> at_hour=15) instead of a vague block. Use 'hours' for a short-term forecast window (e.g. next 5 hours) or 'days' for a multi-day outlook (e.g. tomorrow = days=1). If none of at_hour/hours/days is given, returns the nearest available data (~15 hours).",
+  "keywords": [
+    "weather",
+    "forecast",
+    "temperature",
+    "rain",
+    "hourly",
+    "daily",
+    "tomorrow",
+    "wind",
+    "humidity",
+    "precipitation"
+  ],
+  "version": "1.3.0",
+  "triggers": [
+    "@weather_forecast"
+  ],
+  "permissions": [],
+  "dependencies": [
+    "httpx"
+  ],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "city": {
+        "type": "string",
+        "description": "The name of the city to get the weather for."
+      },
+      "at_hour": {
+        "type": "integer",
+        "description": "A specific local hour to check, 0-23 (e.g. 15 for 3pm). Returns the single closest 3-hour forecast bucket to this time, clearly labeled — OpenWeather's free tier resolution is 3 hours, so this is the closest available reading, not necessarily exact to the minute. Use with 'day_offset' for a day other than today."
+      },
+      "day_offset": {
+        "type": "integer",
+        "description": "Used only with 'at_hour'. 0 = today (default), 1 = tomorrow, 2 = day after, etc., in the target city's local time."
+      },
+      "hours": {
+        "type": "integer",
+        "description": "How many hours ahead to forecast as a block, e.g. 5. Rounded up to the nearest 3-hour interval internally (OpenWeather's data granularity). Use 'at_hour' instead if the user wants one specific time, not a range."
+      },
+      "days": {
+        "type": "integer",
+        "description": "How many days ahead to forecast, e.g. 1 for tomorrow, 3 for a 3-day outlook. Use this instead of 'hours' whenever the request is phrased in terms of days (tomorrow, this weekend, etc.)."
+      }
+    },
+    "required": [
+      "city"
+    ]
+  }
+}

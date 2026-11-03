@@ -1,0 +1,32 @@
+{
+  "name": "voice_reply",
+  "category": "media",
+  "description": "Convert text into a spoken voice note and send it to the current chat as a real audio message (not a text link). Use when the user explicitly asks for a voice note/voice message, or asks OADSON to 'say' or 'read out' something. Supports multiple accents/genders on command — default is Nigerian, but switch to American, British, or a specific gender when the user asks (e.g. 'say it in an American voice', 'use a male voice', 'butler voice'). Free — uses Microsoft Edge's neural text-to-speech service, no API key or card needed.",
+  "keywords": ["voice note", "voice message", "say this", "read this out", "speak", "audio reply", "text to speech", "american voice", "nigerian voice", "british voice", "male voice", "female voice", "butler voice"],
+  "version": "1.1.0",
+  "triggers": ["@voice_reply"],
+  "permissions": [],
+  "dependencies": ["edge-tts"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text to speak. Keep it conversational — this is voice, not an essay. Long text still works but produces a long voice note."
+      },
+      "voice_preset": {
+        "type": "string",
+        "enum": ["nigerian_female", "nigerian_male", "american_female", "american_male", "british_female", "british_male_butler"],
+        "description": "Pick based on what the user asks for. Default 'nigerian_female' if nothing specified. 'british_male_butler' for a formal/deep British male voice — use when the user asks for a 'butler' voice or similarly formal/proper tone. If the user just says 'American voice' with no gender, pick 'american_male' or 'american_female' based on conversational context, or ask if genuinely ambiguous."
+      },
+      "voice": {
+        "type": "string",
+        "description": "Advanced override: an exact Edge TTS voice ID (e.g. 'en-US-ChristopherNeural') instead of a preset. Only use this if the user names a specific voice that isn't covered by voice_preset. Takes precedence over voice_preset when set."
+      }
+    },
+    "required": ["text"]
+  }
+}

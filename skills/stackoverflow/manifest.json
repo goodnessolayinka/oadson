@@ -1,0 +1,34 @@
+{
+  "name": "stackoverflow",
+  "category": "dev_tools",
+  "description": "Search Stack Overflow questions, get a specific question with its answers, search by tag, or find top answerers for a tag.",
+  "keywords": [
+    "stackoverflow",
+    "stack overflow",
+    "programming question"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@stackoverflow"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["search", "get_question", "by_tag", "top_answerers"],
+        "description": "search: title keyword search. get_question: a specific question + its answers by ID. by_tag: questions filtered by tag. top_answerers: reputation leaders for a tag."
+      },
+      "query": {"type": "string", "description": "Search keywords. Required for action='search'."},
+      "question_id": {"type": "integer", "description": "Numeric question ID. Required for action='get_question'."},
+      "tag": {"type": "string", "description": "Stack Overflow tag (e.g. 'python', 'fastapi'). Required for by_tag and top_answerers, optional filter for search."},
+      "limit": {"type": "integer", "description": "Max results. Defaults to 10."}
+    },
+    "required": ["action"]
+  }
+}

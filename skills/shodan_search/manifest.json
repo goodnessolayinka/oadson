@@ -1,0 +1,42 @@
+{
+  "name": "shodan_search",
+  "category": "security",
+  "description": "Search Shodan for internet-connected devices/services, or get detailed info about a specific host. Call with action='search' and a Shodan query for general searches, or action='host_info' with a specific IP address for detailed information about that one host.",
+  "keywords": [
+    "shodan",
+    "device search",
+    "host scan"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@shodan_search"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["search", "host_info"],
+        "description": "search: query Shodan for matching devices/services. host_info: detailed info about one specific IP address."
+      },
+      "query": {
+        "type": "string",
+        "description": "Shodan search query (supports Shodan's search syntax, e.g. 'apache country:US'). Required for action='search'."
+      },
+      "ip_address": {
+        "type": "string",
+        "description": "A specific IP address to look up. Required for action='host_info'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results for action='search'. Defaults to 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

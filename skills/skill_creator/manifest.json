@@ -1,0 +1,37 @@
+{
+  "name": "skill_creator",
+  "category": "dev_tools",
+  "description": "Design and create a brand-new OADSON skill when no existing skill covers something you've asked for. Two-step by design: 'propose' designs the skill and explains it fully WITHOUT creating anything — always do this first and relay the full explanation before proceeding. Only call 'create' with the returned proposal_id after the user has seen the explanation and explicitly confirmed they want it built. Never call 'create' in the same turn as 'propose' without an explicit go-ahead in between.",
+  "keywords": [
+    "create a skill",
+    "new capability",
+    "you don't have a skill for",
+    "build a tool"
+  ],
+  "version": "1.0.0",
+  "triggers": ["@skill_creator"],
+  "permissions": ["filesystem_write"],
+  "dependencies": ["httpx"],
+  "internet_access": true,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["propose", "create"],
+        "description": "'propose' designs and explains a skill without creating it. 'create' actually builds it — only call this after the user has seen and confirmed the proposal."
+      },
+      "capability_description": {
+        "type": "string",
+        "description": "Plain description of what the new skill should do. Required for action='propose'."
+      },
+      "proposal_id": {
+        "type": "string",
+        "description": "The proposal_id returned by a prior 'propose' call. Required for action='create'."
+      }
+    },
+    "required": ["action"]
+  }
+}

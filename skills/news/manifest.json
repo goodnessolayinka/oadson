@@ -1,0 +1,39 @@
+{
+  "name": "news",
+  "category": "web_productivity",
+  "description": "Get top news headlines by country, search news articles by keyword, get breaking news, get news by category, or list available news sources.",
+  "keywords": [
+    "news",
+    "headlines",
+    "breaking news"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@news"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["top_headlines", "search", "breaking", "by_category", "sources"],
+        "description": "top_headlines: top stories for a country. search: keyword search. breaking: current breaking news. by_category: news for one category. sources: list available news outlets."
+      },
+      "country": {"type": "string", "description": "Two-letter country code (e.g. 'us', 'gb'). Used for top_headlines. Defaults to 'us'."},
+      "query": {"type": "string", "description": "Search keywords. Required for action='search'."},
+      "category": {
+        "type": "string",
+        "enum": ["business", "entertainment", "general", "health", "science", "sports", "technology"],
+        "description": "Required for action='by_category'."
+      },
+      "language": {"type": "string", "description": "Language code for action='sources'. Defaults to 'en'."},
+      "limit": {"type": "integer", "description": "Max articles to return. Defaults to 10."}
+    },
+    "required": ["action"]
+  }
+}

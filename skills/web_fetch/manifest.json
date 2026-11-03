@@ -1,0 +1,69 @@
+{
+  "name": "web_fetch",
+  "category": "web_productivity",
+  "description": "Fetch a webpage. mode='read' (default): visible text content, good for reading an article or page the user linked. mode='scrape': extract structured data -- either one field via 'selector' (+ optional 'attribute'), or multiple fields at once via 'selectors' (a field_name->CSS selector map), optionally one-record-per-item via 'repeat_selector' -- use this when the user wants specific DATA out of a page (a list of items, every matching link, table cell values, product cards), not a text summary. mode='crawl': same 'selectors'/'repeat_selector' extraction repeated across multiple pages by following a 'next_page_selector' link, up to 'max_pages' -- use for pagination (e.g. collect every listing across several results pages). DNS-resolved SSRF protection blocks private/loopback/link-local IPv4 and IPv6 addresses. Only sees the initial HTML response -- for JS-rendered content, use @browser instead. Static HTML only, no JavaScript execution.",
+  "keywords": [
+    "fetch url",
+    "fetch page",
+    "read webpage",
+    "scrape",
+    "extract",
+    "web scraping",
+    "css selector",
+    "crawl",
+    "pagination",
+    "structured data"
+  ],
+  "version": "3.0.0",
+  "triggers": [
+    "@web_fetch"
+  ],
+  "permissions": [],
+  "dependencies": ["beautifulsoup4"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "url": {
+        "type": "string",
+        "description": "The full URL to fetch, including https://. For mode='crawl' this is the starting page."
+      },
+      "mode": {
+        "type": "string",
+        "enum": ["read", "scrape", "crawl"],
+        "description": "'read' (default): flattened visible text. 'scrape': structured extraction from ONE page via 'selector' or 'selectors'. 'crawl': structured extraction across MULTIPLE pages via 'selectors' + 'next_page_selector'."
+      },
+      "selector": {
+        "type": "string",
+        "description": "Single-field CSS selector for mode='scrape', e.g. 'div.product-title', 'a[href]', 'table tr td', '.price'. Use this OR 'selectors', not both."
+      },
+      "attribute": {
+        "type": "string",
+        "description": "Optional, only used together with 'selector' (not 'selectors'): extract this HTML attribute (e.g. 'href', 'src') from each matched element instead of its text content."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Optional, only used together with 'selector' (not 'selectors'): max number of matched elements to return. Defaults to 50, capped at 200."
+      },
+      "selectors": {
+        "type": "object",
+        "description": "Multi-field CSS selector map for mode='scrape' or mode='crawl', e.g. {\"title\": \"h1\", \"price\": \".price\"}. Each field's matches are extracted as text. Use this OR 'selector', not both. Required for mode='crawl'."
+      },
+      "repeat_selector": {
+        "type": "string",
+        "description": "Optional, used with 'selectors': treats each match of this CSS selector as one row/record — every selector in 'selectors' is then looked up WITHIN each row instead of once across the whole page. Use for lists of cards/listings/items where you want one structured record per item (e.g. {\"rows\": [{\"title\":..., \"price\":...}, ...]}) instead of separate flat lists you'd have to zip back together yourself."
+      },
+      "next_page_selector": {
+        "type": "string",
+        "description": "Required for mode='crawl'. CSS selector for the 'next page' link — its href is followed to get each subsequent page."
+      },
+      "max_pages": {
+        "type": "integer",
+        "description": "For mode='crawl' only. Hard cap on pages fetched, default 5, maximum 15 — this server runs on a tight memory budget, crawling isn't unbounded."
+      }
+    },
+    "required": ["url"]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "chat_history_search",
+  "category": "personal",
+  "description": "Search past conversation history by date range and summarize what was discussed — e.g. 'what were we talking about last month' or 'what did we discuss last Saturday'. Compute the actual start_date/end_date yourself from the current date you already have; this skill does not parse relative time phrases itself.",
+  "keywords": [
+    "what were we talking about",
+    "last month",
+    "last week",
+    "chat history",
+    "previous conversation",
+    "recall",
+    "summarize past chats"
+  ],
+  "version": "1.0.0",
+  "triggers": [
+    "@chat_history_search"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["search_by_date"],
+        "description": "search_by_date: find and summarize messages within a date range."
+      },
+      "start_date": {
+        "type": "string",
+        "description": "Start of the range, as 'YYYY-MM-DD' or a full ISO datetime. Compute this yourself from the current date — never pass a relative phrase like 'last month' literally."
+      },
+      "end_date": {
+        "type": "string",
+        "description": "End of the range (inclusive, through end of that day), same format as start_date."
+      }
+    },
+    "required": ["action", "start_date", "end_date"]
+  }
+}

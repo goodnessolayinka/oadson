@@ -1,0 +1,74 @@
+{
+  "name": "backend_developer",
+  "category": "dev_tools",
+  "description": "Expert backend builder. Generates a complete, production-standard FastAPI backend (main.py, models, routes, database layer, requirements.txt) from a description of resources/entities. Applies real best practices (proper CRUD structure, Pydantic validation, async MongoDB via Motor, environment-based config) automatically, self-checks every generated file for syntax errors before saving, and saves the finished project into the user's sandbox workspace — ready to run, extend, or push to GitHub.",
+  "keywords": ["backend", "api", "fastapi", "rest api", "build an api", "server", "endpoints", "crud"],
+  "version": "1.0.0",
+  "triggers": ["@backend_developer"],
+  "permissions": ["read_files", "write_files"],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": true,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["build", "edit", "list_templates"],
+        "description": "build: generate a full backend project. edit: change one part of an EXISTING file already in the sandbox (a prior build, or a file from a cloned repo) without regenerating everything around it. list_templates: show what resource shapes are supported."
+      },
+      "project_name": {
+        "type": "string",
+        "description": "Name of the backend project/API, e.g. 'Task Manager API'."
+      },
+      "description": {
+        "type": "string",
+        "description": "What the backend is for — used in generated docstrings and the README. More detail helps generated field names make sense."
+      },
+      "resources": {
+        "type": "array",
+        "description": "List of resources/entities to generate full CRUD endpoints for, e.g. [{'name': 'task', 'fields': [{'name': 'title', 'type': 'str'}, {'name': 'done', 'type': 'bool', 'default': false}]}]. If omitted, generates a single generic 'item' resource as a starting point.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string", "description": "Singular resource name, e.g. 'task', 'user', 'product'."},
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "type": {"type": "string", "enum": ["str", "int", "float", "bool", "datetime"]},
+                  "required": {"type": "boolean"},
+                  "default": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "auth_required": {
+        "type": "boolean",
+        "description": "Whether to include a simple Bearer-token auth dependency stub on all routes. Defaults to false."
+      },
+      "folder_name": {
+        "type": "string",
+        "description": "Folder name to save the project under in the user's workspace. Defaults to a slugified version of project_name."
+      },
+      "file_path": {
+        "type": "string",
+        "description": "For edit: path to the existing file, relative to the workspace root — e.g. 'task-api/routes_task.py', or 'repos/owner__repo/main.py' for a file from a cloned GitHub repo."
+      },
+      "old_str": {
+        "type": "string",
+        "description": "For edit: the exact existing text to replace, copied verbatim from the file's real content (read it first if unsure) — must match exactly once in the file, or the edit is rejected rather than guessing which occurrence you meant."
+      },
+      "new_str": {
+        "type": "string",
+        "description": "For edit: the replacement text."
+      }
+    },
+    "required": ["action"]
+  }
+}

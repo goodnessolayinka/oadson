@@ -1,0 +1,39 @@
+{
+  "name": "dns_lookup",
+  "category": "security",
+  "description": "Look up DNS records for a domain or hostname: A (IPv4), AAAA (IPv6), MX (mail servers), CNAME, NS (nameservers), TXT, or reverse DNS (IP to hostname).",
+  "keywords": [
+    "dns",
+    "domain",
+    "nameserver",
+    "mx record"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@dns_lookup"
+  ],
+  "permissions": [],
+  "dependencies": ["dig"],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "record_type": {
+        "type": "string",
+        "enum": ["A", "AAAA", "MX", "CNAME", "NS", "TXT", "reverse"],
+        "description": "Which DNS record type to look up. 'reverse' takes an IP address and returns its hostname; all others take a domain/hostname."
+      },
+      "hostname": {
+        "type": "string",
+        "description": "The domain or hostname to look up. Required for A, AAAA, MX, CNAME, NS, TXT."
+      },
+      "ip_address": {
+        "type": "string",
+        "description": "The IP address to reverse-lookup. Required for record_type='reverse'."
+      }
+    },
+    "required": ["record_type"]
+  }
+}

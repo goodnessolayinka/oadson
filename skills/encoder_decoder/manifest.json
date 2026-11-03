@@ -1,0 +1,40 @@
+{
+  "name": "encoder_decoder",
+  "category": "dev_tools",
+  "description": "Encode or decode text using Base64, hexadecimal, URL encoding, ROT13, binary, or ASCII codes, or detect what encoding a given string might already be in.",
+  "keywords": [
+    "base64",
+    "encode",
+    "decode",
+    "hex",
+    "rot13"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@encoder_decoder"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "base64_encode", "base64_decode", "hex_encode", "hex_decode",
+          "url_encode", "url_decode", "rot13", "binary_encode", "binary_decode",
+          "ascii_encode", "ascii_decode", "detect_encoding"
+        ],
+        "description": "Pick the exact operation. rot13 is its own inverse (same action for encode/decode). detect_encoding guesses what format an unknown string might be in."
+      },
+      "text": {
+        "type": "string",
+        "description": "The text/string to process - the input being encoded, decoded, or detected."
+      }
+    },
+    "required": ["action", "text"]
+  }
+}

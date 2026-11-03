@@ -1,0 +1,39 @@
+{
+  "name": "ssl_checker",
+  "category": "security",
+  "description": "Check a host's SSL/TLS certificate: full details, a quick expiry check, the certificate chain, or which TLS protocol versions it supports.",
+  "keywords": [
+    "ssl",
+    "tls",
+    "certificate",
+    "https"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@ssl_checker"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["full_check", "expiry_check", "chain", "protocol_support"],
+        "description": "full_check: complete certificate details. expiry_check: quick expiry status only (fastest). chain: certificate chain info. protocol_support: which TLS versions the host supports."
+      },
+      "hostname": {
+        "type": "string",
+        "description": "The hostname to check (e.g. 'example.com', no https:// prefix)."
+      },
+      "port": {
+        "type": "integer",
+        "description": "Port to connect on. Defaults to 443 if omitted."
+      }
+    },
+    "required": ["action", "hostname"]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "google_calendar",
+  "category": "communication",
+  "description": "View or create events on the user's primary Google Calendar. Call with action='upcoming' for the next events, action='today' for today's schedule, or action='create' with a title and ISO 8601 start/end times to add a new event.",
+  "keywords": [
+    "calendar",
+    "event",
+    "schedule",
+    "meeting"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@google_calendar"
+  ],
+  "permissions": ["google_oauth"],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["upcoming", "today", "create"],
+        "description": "upcoming: list next events. today: list today's events. create: add a new event (requires title, start, end)."
+      },
+      "title": {
+        "type": "string",
+        "description": "Event title/summary. Required for action='create'."
+      },
+      "start": {
+        "type": "string",
+        "description": "Event start time as a full ISO 8601 timestamp (e.g. '2026-06-22T14:00:00'). Required for action='create'. Resolve relative phrases like 'tomorrow at 2pm' into an actual timestamp using the current time from the system prompt."
+      },
+      "end": {
+        "type": "string",
+        "description": "Event end time as a full ISO 8601 timestamp. Required for action='create'. If the user doesn't specify a duration, default to 1 hour after start."
+      },
+      "description": {
+        "type": "string",
+        "description": "Optional event description/notes. Only used for action='create'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max number of events to return for action='upcoming'. Defaults to 10."
+      }
+    },
+    "required": ["action"]
+  }
+}

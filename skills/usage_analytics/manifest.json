@@ -1,0 +1,33 @@
+{
+  "name": "usage_analytics",
+  "category": "dev_tools",
+  "description": "View usage statistics: overall summary, per-skill breakdown, daily/hourly request counts, cost breakdown, or top used skills. NOTE: currently returns all-zero data - no persistent tracking mechanism is wired up yet (stats reset on every call since they're stored in-memory on a fresh instance each time, not read from a real database).",
+  "keywords": [
+    "usage stats",
+    "analytics",
+    "request count"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@usage_analytics"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["summary", "skill_usage", "daily", "hourly", "cost_breakdown", "top_skills", "reset"],
+        "description": "summary: overall totals. skill_usage: per-skill breakdown. daily/hourly: time-bucketed counts. cost_breakdown: estimated cost per skill. top_skills: most-used skills. reset: clear stats."
+      },
+      "days": {"type": "integer", "description": "Number of days for action='daily'. Defaults to 7."},
+      "hours": {"type": "integer", "description": "Number of hours for action='hourly'. Defaults to 24."},
+      "limit": {"type": "integer", "description": "Max skills for action='top_skills'. Defaults to 10."}
+    },
+    "required": ["action"]
+  }
+}

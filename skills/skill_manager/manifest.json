@@ -1,0 +1,33 @@
+{
+  "name": "skill_manager",
+  "category": "oadson_utility",
+  "description": "List all available skills, get details about a specific skill (what it does, what arguments it needs), or search for skills matching a keyword. Useful when the user asks 'what can you do' or 'what skills do you have'.",
+  "keywords": [
+    "skills",
+    "what can you do",
+    "capabilities",
+    "list skills"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@skill_manager"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["list", "describe", "search"],
+        "description": "list: all available skill names + short descriptions. describe: full details (description, parameters) for one named skill. search: find skills matching a keyword."
+      },
+      "skill_name": {"type": "string", "description": "Exact skill name. Required for action='describe'."},
+      "query": {"type": "string", "description": "Search keyword. Required for action='search'."}
+    },
+    "required": ["action"]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "gmail",
+  "category": "communication",
+  "description": "Check, count, or search the user's Gmail inbox. Call with action='unread' to list unread emails, action='count' for just the number of unread emails, or action='search' with a Gmail search query (supports Gmail's search syntax like 'from:', 'is:unread', 'subject:').",
+  "keywords": [
+    "gmail",
+    "email",
+    "inbox",
+    "unread",
+    "message"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@gmail"
+  ],
+  "permissions": ["google_oauth"],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["unread", "count", "search"],
+        "description": "unread: list unread emails. count: just the unread count. search: find emails matching a query. Note: sending email is not yet supported by this skill."
+      },
+      "query": {
+        "type": "string",
+        "description": "Gmail search query. Required for action='search'. Supports Gmail search syntax, e.g. 'from:boss@company.com', 'subject:invoice', 'is:unread'."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max number of emails to return. Defaults to 10 for unread, 5 for search."
+      }
+    },
+    "required": ["action"]
+  }
+}

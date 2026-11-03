@@ -1,0 +1,39 @@
+{
+  "name": "reminder",
+  "category": "web_productivity",
+  "description": "Create reminders for tasks/events with a deadline, or check which reminders are currently due. Call with action='set' and a clear task_name plus an ISO 8601 deadline when the user wants to be reminded of something. Call with action='check' to see what's currently due.",
+  "keywords": [
+    "reminder",
+    "alarm",
+    "notify",
+    "schedule"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@reminder"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["set", "check"],
+        "description": "Whether to create a new reminder ('set') or check what's currently due ('check')."
+      },
+      "task_name": {
+        "type": "string",
+        "description": "Short, clean description of what the reminder is for (e.g. 'Exam', 'Submit report'). Required for action='set'. Strip filler words and time phrases - just the task itself."
+      },
+      "deadline": {
+        "type": "string",
+        "description": "The deadline as a full ISO 8601 UTC timestamp, e.g. '2026-06-21T22:00:00'. Required for action='set'. Resolve relative phrases like 'tomorrow', 'in 2 hours', or a weekday name into an actual timestamp using the current time you've been given in the system prompt - do not pass the raw phrase through."
+      }
+    },
+    "required": ["action"]
+  }
+}

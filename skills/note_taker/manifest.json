@@ -1,0 +1,38 @@
+{
+  "name": "note_taker",
+  "category": "web_productivity",
+  "description": "Save a quick note, retrieve a specific note by ID, list all your notes, search your notes, update a note, delete a note (requires confirmation), or add a tag to a note.",
+  "keywords": [
+    "note",
+    "save note",
+    "quick note"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@note_taker"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["save", "get", "list", "search", "update", "delete", "add_tag"],
+        "description": "save: create a note. get: retrieve one by ID. list: all your notes. search: find by title/content/tag. update: edit a note. delete: remove a note (needs confirmation). add_tag: tag an existing note."
+      },
+      "content": {"type": "string", "description": "Note body text. Required for save; optional for update."},
+      "title": {"type": "string", "description": "Note title. Optional for save/update - auto-generated from timestamp if omitted on save."},
+      "tags": {"type": "array", "items": {"type": "string"}, "description": "Tags for the note. Used for save/update."},
+      "note_id": {"type": "string", "description": "The note's ID. Required for get, update, delete, add_tag."},
+      "query": {"type": "string", "description": "Search term. Required for action='search'."},
+      "tag": {"type": "string", "description": "A single tag to add. Required for action='add_tag'."},
+      "limit": {"type": "integer", "description": "Max notes for list/search. Defaults to 50/20 respectively."},
+      "confirm": {"type": "boolean", "description": "Must be explicitly true to actually delete a note."}
+    },
+    "required": ["action"]
+  }
+}

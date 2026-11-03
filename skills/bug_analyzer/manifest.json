@@ -1,0 +1,30 @@
+{
+  "name": "bug_analyzer",
+  "category": "dev_tools",
+  "description": "Analyze an error message or stack trace and suggest likely causes and next debugging steps.",
+  "keywords": [
+    "bug",
+    "error",
+    "stack trace",
+    "debug"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@bug_analyzer"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "error_message": {
+        "type": "string",
+        "description": "The full error message or stack trace to analyze. Include as much context as available (language/framework, what triggered it)."
+      }
+    },
+    "required": ["error_message"]
+  }
+}

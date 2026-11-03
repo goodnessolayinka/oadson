@@ -1,0 +1,28 @@
+{
+  "name": "recon_report",
+  "category": "security",
+  "description": "Run a full passive recon sweep on a domain or IP and return ONE structured report, instead of chaining dns_lookup/whois/ssl_checker/subdomain_enum/header_analyzer/threat_intel manually across separate turns. Use for 'do a recon on X', 'security overview of this domain', CTF/coursework target profiling, or checking a host before trusting it. Deliberately passive-only — does NOT run port_scanner (that skill requires explicit user confirmation before an active scan for good reason; run it separately if an active scan is actually wanted).",
+  "keywords": ["recon", "reconnaissance", "security report", "domain report", "target profile", "ctf", "footprinting", "osint sweep"],
+  "version": "1.0.0",
+  "triggers": ["@recon_report"],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "target": {
+        "type": "string",
+        "description": "A domain (e.g. 'example.com') or IP address to profile."
+      },
+      "depth": {
+        "type": "string",
+        "enum": ["quick", "standard", "deep"],
+        "description": "quick: DNS + WHOIS/host-info + SSL expiry + threat intel only (fastest). standard (default): quick + HTTP security header audit + passive subdomain enumeration via crt.sh. deep: standard + slower active-DNS subdomain brute-force. None of these run a port scan."
+      }
+    },
+    "required": ["target"]
+  }
+}

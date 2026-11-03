@@ -1,0 +1,36 @@
+{
+  "name": "github_daily_summary",
+  "category": "dev_tools",
+  "description": "Checks and summarizes the user's GitHub commits and pull requests for the current date.",
+  "keywords": [
+    "github",
+    "commits",
+    "contributions",
+    "coding activity"
+  ],
+  "version": "1.0.0",
+  "triggers": [
+    "@github_daily_summary"
+  ],
+  "permissions": [
+    "github_api"
+  ],
+  "dependencies": [
+    "requests"
+  ],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "username": {
+        "type": "string",
+        "description": "The GitHub username to check activity for."
+      }
+    },
+    "required": [
+      "username"
+    ]
+  }
+}

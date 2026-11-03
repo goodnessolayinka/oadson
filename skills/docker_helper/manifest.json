@@ -1,0 +1,33 @@
+{
+  "name": "docker_helper",
+  "category": "dev_tools",
+  "description": "Inspect Docker containers/images on the host: list containers/images, get logs, resource stats, or full inspection details for a container, or general Docker system info. Read-only - does not start, stop, or modify containers.",
+  "keywords": [
+    "docker",
+    "container",
+    "docker logs"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@docker_helper"
+  ],
+  "permissions": ["shell_access"],
+  "dependencies": ["docker"],
+  "internet_access": false,
+  "filesystem_access": false,
+  "shell_access": true,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["list_containers", "list_images", "logs", "stats", "inspect", "docker_info"],
+        "description": "list_containers: running (or all) containers. list_images: local images. logs: a container's recent logs. stats: live resource usage. inspect: full container details. docker_info: Docker system/daemon info."
+      },
+      "container_id": {"type": "string", "description": "Container ID or name. Required for logs, stats, inspect."},
+      "all_containers": {"type": "boolean", "description": "For list_containers: include stopped containers too. Defaults to false (running only)."},
+      "log_lines": {"type": "integer", "description": "Number of log lines to retrieve for action='logs'. Defaults to 50."}
+    },
+    "required": ["action"]
+  }
+}

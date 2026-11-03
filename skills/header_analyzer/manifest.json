@@ -1,0 +1,42 @@
+{
+  "name": "header_analyzer",
+  "category": "security",
+  "description": "Fetch and analyze HTTP response headers for a URL: full headers, a security-headers audit, detected server/technology, or an explanation of what a specific header means.",
+  "keywords": [
+    "http headers",
+    "security headers",
+    "server detection"
+  ],
+  "version": "2.0.0",
+  "triggers": [
+    "@header_analyzer"
+  ],
+  "permissions": [],
+  "dependencies": [],
+  "internet_access": true,
+  "filesystem_access": false,
+  "shell_access": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["get_headers", "security_audit", "detect_server", "explain_header"],
+        "description": "get_headers: all raw response headers. security_audit: check for missing security headers with a score. detect_server: identify the web server/tech stack. explain_header: explain what a specific header name+value means (no network request needed)."
+      },
+      "url": {
+        "type": "string",
+        "description": "The URL to fetch headers from. Required for get_headers, security_audit, detect_server."
+      },
+      "header_name": {
+        "type": "string",
+        "description": "A specific header name to explain (e.g. 'X-Frame-Options'). Required for action='explain_header'."
+      },
+      "header_value": {
+        "type": "string",
+        "description": "The value of that header, if known. Required for action='explain_header'."
+      }
+    },
+    "required": ["action"]
+  }
+}
