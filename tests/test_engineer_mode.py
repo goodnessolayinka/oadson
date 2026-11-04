@@ -86,7 +86,7 @@ def test_budget_stops_before_any_model_call(monkeypatch):
 
 def test_engineer_searches_on_the_worker_then_answers(monkeypatch):
     async def active(uid):
-        return "upload:oadson-v3"
+        return "upload:my-project"
     monkeypatch.setattr(wp, "get_active", active)
     calls, seen, recorded = [], [], []
 
@@ -115,7 +115,7 @@ def test_engineer_searches_on_the_worker_then_answers(monkeypatch):
     monkeypatch.setattr(spend_tracker, "record", fake_record)
     res = asyncio.run(em.run_engineer("u1", "s1", "stop button does nothing"))
     assert res["reply"].startswith("What I think is wrong") and res["paused"] is False
-    assert seen == [("search_code", {"repo": "upload:oadson-v3", "query": "stop button"})]
+    assert seen == [("search_code", {"repo": "upload:my-project", "query": "stop button"})]
     assert calls == [em.MODEL, em.MODEL]                       # Haiku 5.5 only
     assert recorded == ["anthropic", "engineer", "anthropic", "engineer"]
 

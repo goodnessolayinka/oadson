@@ -131,7 +131,7 @@ def _tools() -> list:
             "description": "Search the project folder on the worker. Returns the most relevant snippets with file names and line ranges.",
             "parameters": {"type": "object", "properties": {
                 "query": {"type": "string"},
-                "repo": {"type": "string", "description": "Folder, e.g. upload:oadson-v3. Optional."}},
+                "repo": {"type": "string", "description": "Folder, e.g. upload:my-project. Optional."}},
                 "required": ["query"]}}},
         {"type": "function", "function": {
             "name": "read_file",

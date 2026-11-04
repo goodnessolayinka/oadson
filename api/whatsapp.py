@@ -671,7 +671,7 @@ async def whatsapp_webhook(request: Request, db=Depends(get_db)):
     # a replacement identity format for "@c.us" (phone-number-based) on
     # some accounts/sessions. When that happens, GreenAPI sends sender/
     # chatId as e.g. "147983735738378@lid" instead of
-    # "2348023908581@c.us" — same human, same WhatsApp account, but a
+    # "XXXXXXXXXXX@c.us" — same human, same WhatsApp account, but a
     # completely different string. The old .replace("@c.us", "") did
     # nothing for an "@lid" value, so sender_phone stayed as the full
     # "147983735738378@lid" string, which could never digit-match
